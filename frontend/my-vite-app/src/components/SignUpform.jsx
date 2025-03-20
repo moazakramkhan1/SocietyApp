@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from 'axios'
-import { SignUpRoute } from "../endPointUrls";
+import { SignUpUrl } from "../endPointUrls";
 import { useNavigate } from 'react-router-dom'
 import { LoginRoute } from "../routes";
 import Loader from "./Loader";
@@ -33,7 +33,7 @@ const Signup = () => {
         setLoading(true);
 
         try {
-            const response = await axios.post(SignUpRoute, formData);
+            const response = await axios.post(SignUpUrl, formData);
             if (response.status === 'ok') {
                 navigate(LoginRoute);
             }
