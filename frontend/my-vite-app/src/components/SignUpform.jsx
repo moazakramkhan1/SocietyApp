@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from 'axios'
 import { SignUpUrl } from "../endPointUrls";
 import Loader from "./Loader";
+import "../styles/SignUpform.css";
 
 const Signup = ({ setFormType }) => {
     const [formData, setFormData] = useState({

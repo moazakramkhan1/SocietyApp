@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { LoginUrl } from "../endPointUrls";
 import { HomeRoute } from "../routes";
 import Loader from "./Loader";
+import "../styles/LoginForm.css";
 
 const LoginForm = () => {
     const [error, setError] = useState('');
