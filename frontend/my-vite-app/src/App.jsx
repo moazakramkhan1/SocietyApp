@@ -1,22 +1,16 @@
-import { useState, useEffect } from 'react'
-
-
+import { HomeRoute, LoginSignupScreenRoute } from "./routes";
+import LoginSignupScreen from "./Screens/loginSignupScreen"
+import Home from "./Screens/HomeScreen"
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 function App() {
-  const [data, setData] = useState('')
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetch('http://127.0.0.1:8000');
-      setData(data.json())
-    }
-    fetchData();
-  }, [])
 
   return (
-    <>
-      <div>
-        <p>{data}</p>
-      </div>
-    </>
+    <Router>
+      <Routes>
+        <Route path={LoginSignupScreenRoute} element={<LoginSignupScreen />} />
+        <Route path={HomeRoute} element={<Home />} />
+      </Routes>
+    </Router>
   )
 }
 

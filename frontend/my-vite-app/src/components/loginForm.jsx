@@ -22,11 +22,11 @@ const LoginForm = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const data = await axios.post(LoginUrl, formData);
-            if (data.status == 'ok') {
-                navigate(HomeRoute)
+            // const data = await axios.post(LoginUrl, formData);
+            // if (data.status == 'ok') {
 
-            }
+            // }
+            navigate(HomeRoute)
         }
         catch (err) {
             setError('Something went wrong!');

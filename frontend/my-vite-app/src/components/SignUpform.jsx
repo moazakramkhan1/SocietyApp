@@ -1,20 +1,18 @@
 import { useState } from "react";
 import axios from 'axios'
 import { SignUpUrl } from "../endPointUrls";
-import { useNavigate } from 'react-router-dom'
-import { LoginRoute } from "../routes";
 import Loader from "./Loader";
 
-const Signup = () => {
-    const [formData, setFormData] = useState(
-        username = '',
-        email = '',
-        password = '',
-        confirmPassword = '',
-        role = ''
+const Signup = ({ setFormType }) => {
+    const [formData, setFormData] = useState({
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        role: ''
+    }
     );
     const [error, setError] = useState('');
-    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
@@ -33,10 +31,13 @@ const Signup = () => {
         setLoading(true);
 
         try {
-            const response = await axios.post(SignUpUrl, formData);
-            if (response.status === 'ok') {
-                navigate(LoginRoute);
-            }
+            // const response = await axios.post(SignUpUrl, formData);
+            // if (response.status === 'ok') {
+
+            // }
+            console.log('helloo')
+            setFormType('login')
+
         } catch (err) {
             setError('Something went wrong!');
         } finally {
@@ -93,3 +94,4 @@ const Signup = () => {
         {loading && <Loader />}
     </div>
 }
+export default Signup
