@@ -5,3 +5,5 @@ function SideNavbar() {
         <p>side bar</p>
     </div>
 }
+
+export default SideNavbar
