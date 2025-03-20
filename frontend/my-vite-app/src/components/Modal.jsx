@@ -1,9 +1,9 @@
-const Modal = ({ showModal, closeModal, children, FormType }) => {
+import "../styles/Modal.css"
+const Modal = ({ showModal, closeModal, children }) => {
     if (!showModal) return null;
 
     return (
         <div className="modal-overlay" onClick={closeModal}>
-            <h2>{FormType}</h2>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                 <button className="close-btn" onClick={closeModal}>X</button>
                 {children}

@@ -74,7 +74,7 @@ const Signup = ({ setFormType }) => {
                 required
             />
             <input
-                name="username"
+                name="confirmPassword"
                 placeholder="Confirm Password"
                 value={formData.confirmPassword}
                 type="password"

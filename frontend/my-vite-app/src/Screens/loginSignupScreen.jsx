@@ -3,6 +3,7 @@ import LoginForm from "../components/LoginForm"
 import Signup from "../components/SignUpform";
 import { useState } from "react";
 import robotImg from '../static/robotimg.jpg';
+import "../styles/LoginSignupScreen.css"
 
 
 function LoginSignupScreen() {
