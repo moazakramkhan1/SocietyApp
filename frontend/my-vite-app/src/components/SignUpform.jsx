@@ -4,6 +4,7 @@ import { SignUpUrl } from "../endPointUrls";
 import { useNavigate } from 'react-router-dom'
 import { LoginRoute } from "../routes";
 import Loader from "./Loader";
+import "../styles/SignUpform.css";
 
 const Signup = () => {
     const [formData, setFormData] = useState(
