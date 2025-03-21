@@ -1,6 +1,7 @@
 import React from "react";
 import '../styles/SocietyComponent.css'
 import logo from '../static/logo.jpg'
+import { SocietyDetailsScreenRoute } from "../routes";
 const societies = [
   {
     id: 1,
@@ -32,7 +33,7 @@ const SocietyComponent = () => {
         return (
         <div key={index} className="society-card">
         <img src={logo} alt={society.name} className="society-image" />
-        <h2 className="society-name">{society.name}</h2>
+        <a href={SocietyDetailsScreenRoute}><h2 className="society-name">{society.name}</h2></a>
         <p className="society-description">{society.description}</p>
         <p className="society-members">Members: {society.members}</p>
       </div>
