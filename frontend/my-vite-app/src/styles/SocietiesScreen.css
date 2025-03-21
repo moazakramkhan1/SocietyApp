@@ -1,15 +1,66 @@
 .societies-screen {
-    display: flex;
+  display: flex;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 25px;
+  color: #2c3e50;
+  letter-spacing: 0.5px;
+  padding-bottom: 5px;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
   }
-  
-  .content {
-    flex: 1;
-    padding: 20px;
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .page-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
+}
+
+
+.admin-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.admin-actions button {
+  background-color: #30a7c9;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.admin-actions button:hover {
+  background-color: #30a7c9;
+}
+
+@media (max-width: 600px) {
+  .admin-actions {
+    flex-direction: column;
+    align-items: center;
   }
-  
+
+  .admin-actions button {
+    width: 80%;
+  }
+}
