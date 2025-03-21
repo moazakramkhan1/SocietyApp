@@ -1,15 +1,15 @@
 import SocietyComponent from "../components/SocietyComponent"
 import SideNavbar from "../components/SideNavbar"
 import '../styles/SocietiesScreen.css'
-import { useSelector } from 'react-redux'
 function SocietiesScreen() {
-  const user = useSelector((state) => state.user.user);
+  const userRole = localStorage.getItem('role')
+  console.log(userRole)
   return (
     <div className="societies-screen">
       <SideNavbar />
       <div className="content">
         <h1 className="page-title">Societies</h1>
-        {user?.role === 'admin' &&
+        {userRole === 'admin' &&
           <div className="admin-actions">
             <button className="createSociety-btn">Create Society </button>
             <button className="editSociety-btn">Edit Society </button>

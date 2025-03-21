@@ -5,29 +5,40 @@ import { LoginUrl } from "../endPointUrls";
 import { HomeRoute } from "../routes";
 import Loader from "./Loader";
 import "../styles/LoginForm.css";
+import { jwtDecode } from "jwt-decode"
 
 const LoginForm = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
-    const [formData, setFormData] = useState({
+    const [data, setData] = useState({
         email: '',
         password: ''
-    });
+    })
+    const formData = new URLSearchParams();
+    formData.append("grant_type", "password");
+    formData.append("username", data.email);
+    formData.append("password", data.password);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prevData) => ({ ...prevData, [name]: value }));
+        setData((prevData) => ({ ...prevData, [name]: value }));
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         try {
-            // const data = await axios.post(LoginUrl, formData);
-            // if (data.status == 'ok') {
-
-            // }
-            navigate(HomeRoute)
+            console.log('before')
+            const response = await axios.post(LoginUrl, formData, {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+            const token = response.data.access_token;
+            localStorage.setItem('access_token', token);
+            const decoded_data = jwtDecode(token);
+            localStorage.setItem('role', decoded_data.role)
+            navigate(HomeRoute);
         }
         catch (err) {
             setError('Something went wrong!');
