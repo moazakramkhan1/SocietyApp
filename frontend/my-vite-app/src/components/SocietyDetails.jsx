@@ -1,5 +1,4 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import "../styles/SocietyDetails.css";
 
 const societyData = {
@@ -32,13 +31,9 @@ const SocietyDetails = () => {
 
   return (
     <div className="society-details-container">
-      {/* Society Name */}
+
       <h1 className="society-name">{society.name}</h1>
-
-      {/* Society Description */}
       <p className="description">{society.description}</p>
-
-      {/* Committee Members Section */}
       <h2 className="section-title">Committee Members</h2>
       <ul className="committee-list">
         {society.committee.map((member, index) => (
@@ -46,7 +41,6 @@ const SocietyDetails = () => {
         ))}
       </ul>
 
-      {/* Upcoming Events in a Single Row */}
       <h2 className="section-title">Upcoming Events</h2>
       <div className="events-container">
         {society.events.map((event, index) => (
@@ -56,8 +50,6 @@ const SocietyDetails = () => {
           </div>
         ))}
       </div>
-
-      {/* Join Now Button (Increased Width) */}
       <button className="join-button">Join Now</button>
     </div>
   );

@@ -1,6 +1,7 @@
 import React from "react";
 import '../styles/SocietyComponent.css'
 import logo from '../static/logo.jpg'
+import { SocietyDetailScreenRoute } from "../routes";
 const societies = [
   {
     id: 1,
@@ -28,16 +29,16 @@ const societies = [
 const SocietyComponent = () => {
   return (
     <div className="society-list">
-      {societies.map((society,index) => {
+      {societies.map((society, index) => {
         return (
-        <div key={index} className="society-card">
-        <img src={logo} alt={society.name} className="society-image" />
-        <h2 className="society-name">{society.name}</h2>
-        <p className="society-description">{society.description}</p>
-        <p className="society-members">Members: {society.members}</p>
-      </div>
+          <div key={index} className="society-card">
+            <img src={logo} alt={society.name} className="society-image" />
+            <a href={SocietyDetailScreenRoute}><h2 className="society-name">{society.name}</h2></a>
+            <p className="society-description">{society.description}</p>
+            <p className="society-members">Members: {society.members}</p>
+          </div>
         );
-})}
+      })}
     </div>
   );
 };
