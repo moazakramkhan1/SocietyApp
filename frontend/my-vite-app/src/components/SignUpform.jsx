@@ -3,14 +3,17 @@ import axios from 'axios'
 import { SignUpUrl } from "../endPointUrls";
 import Loader from "./Loader";
 import "../styles/SignUpform.css";
+import ImageUploader from './ImageUploader';
 
 const Signup = ({ setFormType }) => {
-    const [formData, setFormData] = useState({
+    const [image, setImage] = useState('')
+    const [data, setData] = useState({
         username: '',
         email: '',
         password: '',
-        confirmPassword: '',
-        role: ''
+        confirmpassword: '',
+        role: '',
+        image: image
     }
     );
     const [error, setError] = useState('');
@@ -18,12 +21,12 @@ const Signup = ({ setFormType }) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prevData) => ({ ...prevData, [name]: value }));
+        setData((prevData) => ({ ...prevData, [name]: value }));
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (formData.password !== formData.confirmPassword) {
+        if (data.password !== data.confirmpassword) {
             setError('Your password and confirm password do not match');
             return;
         }
@@ -32,13 +35,8 @@ const Signup = ({ setFormType }) => {
         setLoading(true);
 
         try {
-            // const response = await axios.post(SignUpUrl, formData);
-            // if (response.status === 'ok') {
-
-            // }
-            console.log('helloo')
+            await axios.post(SignUpUrl, data);
             setFormType('login')
-
         } catch (err) {
             setError('Something went wrong!');
         } finally {
@@ -52,7 +50,7 @@ const Signup = ({ setFormType }) => {
             <input
                 name="username"
                 placeholder="username"
-                value={formData.username}
+                value={data.username}
                 type="text"
                 onChange={handleChange}
                 required
@@ -60,7 +58,7 @@ const Signup = ({ setFormType }) => {
             <input
                 name="email"
                 placeholder="Email"
-                value={formData.email}
+                value={data.email}
                 type="email"
                 onChange={handleChange}
                 required
@@ -68,23 +66,23 @@ const Signup = ({ setFormType }) => {
             <input
                 name="password"
                 placeholder="Password"
-                value={formData.password}
+                value={data.password}
                 type="password"
                 onChange={handleChange}
                 required
             />
             <input
-                name="confirmPassword"
+                name="confirmpassword"
                 placeholder="Confirm Password"
-                value={formData.confirmPassword}
+                value={data.confirmpassword}
                 type="password"
                 onChange={handleChange}
                 required
             />
+            <ImageUploader setImage={setImage} />
             <label>Role:</label>
-            <select name="role" value={formData.role} onChange={handleChange}>
+            <select name="role" value={data.role} onChange={handleChange}>
                 <option value="student">Student</option>
-                <option value="moderator">Moderator</option>
                 <option value="admin">Admin</option>
             </select>
             <button type="submit">Submit</button>

@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/SocietyDetails.css";
+import "../styles/SocietyDetailsComponent.css";
 
 const societyData = {
   1: {

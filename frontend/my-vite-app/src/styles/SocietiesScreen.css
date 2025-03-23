@@ -1,10 +1,15 @@
 .societies-screen {
-  display: flex;
+  margin-left: 60px;
+  margin-top: 60px;
+  min-height: 100vh;
+  background-color: #fff;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .content {
-  flex: 1;
   padding: 20px;
+  box-sizing: border-box;
 }
 
 .page-title {
@@ -30,10 +35,9 @@
   }
 }
 
-
 .admin-actions {
   display: flex;
-  justify-content: center;
+  justify-content: right;
   gap: 15px;
   margin-bottom: 20px;
 }
@@ -47,11 +51,11 @@
   font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease;
 }
 
 .admin-actions button:hover {
-  background-color: #30a7c9;
+  background-color: #2490af;
 }
 
 @media (max-width: 600px) {

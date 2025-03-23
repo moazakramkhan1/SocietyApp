@@ -30,7 +30,7 @@ function LoginSignupScreen() {
             </div>
         </div>
         {
-            modalStatus && <Modal showModal={modalStatus} closeModal={closeModal} FormType={formType}>
+            modalStatus && <Modal showModal={modalStatus} closeModal={closeModal} >
                 {formType === 'login' ? <LoginForm /> : <Signup setFormType={setFormType} />}
             </Modal>
         }

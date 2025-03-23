@@ -19,7 +19,9 @@ def authenticate(request:OAuth2PasswordRequestForm = Depends(),db:Session=Depend
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
         data={"sub": user.email,
-              "role": user.role}
+              "role": user.role,
+              'image':user.image,
+              'id':user.id}
               , expires_delta=access_token_expires
     )
     return schemas.Token(access_token=access_token, token_type="bearer")

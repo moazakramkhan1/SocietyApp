@@ -28,7 +28,6 @@ const LoginForm = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            console.log('before')
             const response = await axios.post(LoginUrl, formData, {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'

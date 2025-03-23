@@ -1,10 +1,12 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from . import models
-from .routers import user,Authentication
+from .routers import user,Authentication,imageUpload
 from .database import engine
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 app.add_middleware(
     CORSMiddleware,
     allow_origins='http://localhost:5173', 
@@ -14,3 +16,4 @@ app.add_middleware(
 )
 app.include_router(user.router)
 app.include_router(Authentication.router)
+app.include_router(imageUpload.router)

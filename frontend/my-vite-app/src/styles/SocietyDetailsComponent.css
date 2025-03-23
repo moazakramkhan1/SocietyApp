@@ -1,16 +1,14 @@
-/* Main container */
 .society-details-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     min-height: 100vh;
-    background-color: #e3f2fd; /* Full-page background */
+    background-color: #e3f2fd;
     padding: 40px 20px;
     width: 100%;
 }
 
-/* Society Name (Increased font size) */
 .society-name {
     font-size: 2rem;
     font-weight: bold;
@@ -18,7 +16,6 @@
     margin-bottom: 10px;
 }
 
-/* Description */
 .description {
     font-size: 1.5rem;
     color: #444;
@@ -26,7 +23,6 @@
     margin-bottom: 40px;
 }
 
-/* Section Titles */
 .section-title {
     font-size: 2rem;
     font-weight: bold;
@@ -34,7 +30,7 @@
     margin-bottom: 15px;
 }
 
-/* Committee Members */
+
 .committee-list {
     list-style: none;
     padding: 0;
@@ -42,7 +38,6 @@
     line-height: 1.8;
 }
 
-/* Upcoming Events */
 .events-container {
     display: flex;
     flex-wrap: nowrap;
@@ -53,7 +48,6 @@
     margin-bottom: 40px;
 }
 
-/* Event Cards */
 .event-card {
     background: white;
     padding: 25px;
@@ -78,7 +72,7 @@
     color: #666;
 }
 
-/* Join Button */
+
 .join-button {
     background: #30a7c9;
     color: white;
@@ -97,8 +91,8 @@
     transform: scale(1.05);
 }
 
-/* Full width and height fix */
-html, body {
+html,
+body {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -106,7 +100,6 @@ html, body {
     background-color: #e3f2fd;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .events-container {
         flex-direction: row;
