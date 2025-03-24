@@ -4,9 +4,11 @@ from pydantic import BaseModel
 class User(BaseModel):
     username:str
     email:str
+    phonenumber:str
     password:str
     confirmpassword:str
     role:str
+    image:str
 
 class ShowUser(BaseModel):
     username:str

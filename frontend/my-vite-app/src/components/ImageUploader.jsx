@@ -1,44 +1,52 @@
 import { useState } from 'react';
-import axios from 'axios'
+import axios from 'axios';
 import { imageUploadURL } from '../endPointUrls';
 
 function ImageUploader({ setImage }) {
+    const [selectedFile, setSelectedFile] = useState(null);
     const [error, setError] = useState('');
+    const [uploading, setUploading] = useState(false);
 
     const handleFileChange = (e) => {
-        setImage(e.target.files[0]);
+        setSelectedFile(e.target.files[0]);
         setError('');
     };
 
-    const handleUpload = async (e) => {
-        e.preventDefault();
-
-        if (!file) {
+    const handleUpload = async () => {
+        if (!selectedFile) {
             setError('Please select a file first.');
             return;
         }
 
         try {
+            setUploading(true);
             const formData = new FormData();
-            formData.append('image', image);
-            const response = await axios.post(imageUploadURL, formData)
-            if (!response.ok) {
-                throw new Error('Failed to upload file.');
-            }
+            formData.append('file', selectedFile);
+
+            const response = await axios.post(imageUploadURL, formData);
+            const { fileUrl } = response.data;
+
+            setImage(fileUrl);
+            setError('');
         } catch (err) {
             console.error(err);
-            setError(err.message || 'Something went wrong while uploading.');
+            setError('Upload failed. Try again.');
+        } finally {
+            setUploading(false);
         }
     };
 
     return (
-        <div style={{ margin: '20px' }}>
-            <form onSubmit={handleUpload}>
-                <input type="file" onChange={handleFileChange} />
-                <button type="submit" style={{ marginLeft: '10px' }}>
-                    Upload
-                </button>
-            </form>
+        <div style={{ margin: '20px 0' }}>
+            <input type="file" onChange={handleFileChange} />
+            <button
+                type="button"
+                onClick={handleUpload}
+                disabled={uploading}
+                style={{ marginLeft: '10px' }}
+            >
+                {uploading ? 'Uploading...' : 'Upload'}
+            </button>
             {error && <p style={{ color: 'red' }}>{error}</p>}
         </div>
     );

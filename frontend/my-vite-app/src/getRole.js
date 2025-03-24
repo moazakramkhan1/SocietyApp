@@ -12,10 +12,10 @@ export default function getRoleORImageOREmailORId(number) {
     else if (number == 2) {
         return data?.image;
     }
-    else if (3) {
+    else if (number == 3) {
         return data?.sub
     }
-    else if (4) {
+    else if (number == 4) {
         return data?.id
     }
 }

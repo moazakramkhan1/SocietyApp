@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from 'axios'
 import { SignUpUrl } from "../endPointUrls";
 import Loader from "./Loader";
@@ -10,12 +10,16 @@ const Signup = ({ setFormType }) => {
     const [data, setData] = useState({
         username: '',
         email: '',
+        phonenumber: '',
         password: '',
         confirmpassword: '',
         role: '',
-        image: image
+        image: ''
     }
     );
+    useEffect(() => {
+        setData((prevData) => ({ ...prevData, image }));
+    }, [image]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -45,6 +49,7 @@ const Signup = ({ setFormType }) => {
     };
 
 
+
     return <div className="container">
         <form onSubmit={handleSubmit}>
             <input
@@ -62,6 +67,13 @@ const Signup = ({ setFormType }) => {
                 type="email"
                 onChange={handleChange}
                 required
+            />
+            <input
+                name="phonenumber"
+                placeholder="Phone Number"
+                value={data.phonenumber}
+                type="text"
+                onChange={handleChange}
             />
             <input
                 name="password"

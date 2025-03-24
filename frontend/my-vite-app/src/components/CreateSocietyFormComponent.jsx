@@ -1,10 +1,11 @@
 import { useState } from "react";
 import axios from 'axios'
-import { CreateSocietyURL, SignUpUrl } from "../endPointUrls";
+import { CreateSocietyURL } from "../endPointUrls";
 import Loader from "./Loader";
 import "../styles/SignUpform.css";
 import ImageUploader from './ImageUploader';
 import getRoleORImageOREmail from "../getRole";
+
 
 const CreateSocietyFormComponent = () => {
     const [image, setImage] = useState('')
@@ -63,6 +64,7 @@ const CreateSocietyFormComponent = () => {
                 type="text"
                 onChange={handleChange}
             />
+            <label>Upload Society image</label>
             <ImageUploader setImage={setImage} />
             <button type="submit">Submit</button>
         </form>
