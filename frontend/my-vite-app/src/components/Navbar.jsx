@@ -1,21 +1,12 @@
 import { Notifications, AccountCircle } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import "../styles/Navbar.css";
-import axios from 'axios';
 import getRoleORImageOREmailORId from '../getRole';
 
 function Navbar() {
-    let imageURL = getRoleORImageOREmailORId(2);
-    const image = async () => {
-        try {
-            let response = await axios.get(imageURL)
-            console.log(response)
-        }
-        catch (e) {
-            console.error("sorry error occured")
-        }
-    }
-    image()
+    const imagePath = getRoleORImageOREmailORId(2);
+    const completeURL = imagePath ? `http://localhost:8000${imagePath}` : null;
+    console.log(completeURL)
     return (
         <div className="navbar">
             <div className="navbar-content">
@@ -28,8 +19,8 @@ function Navbar() {
                     </Tooltip>
                     <Tooltip title="Profile">
                         <a href="#" className="nav-item">
-                            {imageURL ? (
-                                <img src={"image"} alt="Profile" />
+                            {imagePath ? (
+                                <img src={completeURL} alt="Profile" className="profileImage" />
                             ) : (
                                 <AccountCircle fontSize="large" />
                             )}

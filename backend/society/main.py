@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
@@ -6,7 +7,10 @@ from .routers import user,Authentication,imageUpload
 from .database import engine
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
-app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+current_dir = os.path.dirname(__file__)
+uploads_path = os.path.join(current_dir, "uploads")
+
+app.mount("/uploads", StaticFiles(directory=uploads_path), name="uploads")
 app.add_middleware(
     CORSMiddleware,
     allow_origins='http://localhost:5173', 
