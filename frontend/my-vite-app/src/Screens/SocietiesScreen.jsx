@@ -10,6 +10,7 @@ import Modal from '../components/Modal'
 function SocietiesScreen() {
   const userRole = getRoleORImageOREmail(1)
   const [modalStatus, setModalStatus] = useState(false);
+  const [societyData, setSocietyData] = useState(null);
   const openModal = (type) => {
     setModalStatus(true);
   }
@@ -28,11 +29,11 @@ function SocietiesScreen() {
             <button className="editSociety-btn">Edit Society </button>
             <button className="DeleteSociety-btn">Delete Society </button>
           </div>}
-        <SocietyComponent />
+        <SocietyComponent societyData={societyData} />
       </div>
       {
         modalStatus && <Modal showModal={modalStatus} closeModal={closeModal}>
-          <CreateSocietyFormComponent />
+          <CreateSocietyFormComponent setSocietyData={setSocietyData} setModalStatus={setModalStatus} />
         </Modal>
       }
     </div>

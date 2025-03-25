@@ -1,38 +1,22 @@
-import React from "react";
 import '../styles/SocietyComponent.css'
-import logo from '../static/logo.jpg'
 import { SocietyDetailScreenRoute } from "../routes";
-const societies = [
-  {
-    id: 1,
-    name: "Tech Enthusiasts",
-    description: "A community for tech lovers to share knowledge and collaborate.",
-    members: 120,
-    image: "",
-  },
-  {
-    id: 2,
-    name: "Music Lovers",
-    description: "A society for music enthusiasts to explore different genres and instruments.",
-    members: 95,
-    image: "",
-  },
-  {
-    id: 3,
-    name: "Art & Design Club",
-    description: "A space for creative minds to showcase and enhance their artistic skills.",
-    members: 80,
-    image: "",
-  },
-];
+import { mainEndpoint } from '../endPointUrls';
+import { useEffect, useState } from 'react';
+const SocietyComponent = ({ societyData }) => {
+  const [societies, SetSocieties] = useState([])
+  useEffect(() => {
+    if (societyData) {
+      SetSocieties([...societies, societyData])
+    }
+  }, [societyData])
 
-const SocietyComponent = () => {
   return (
     <div className="society-list">
       {societies.map((society, index) => {
+        let imageUrl = `${mainEndpoint}${society.image}`
         return (
           <div key={index} className="society-card">
-            <img src={logo} alt={society.name} className="society-image" />
+            <img src={imageUrl} alt={society.name} className="society-image" />
             <a href={SocietyDetailScreenRoute}><h2 className="society-name">{society.name}</h2></a>
             <p className="society-description">{society.description}</p>
             <p className="society-members">Members: {society.members}</p>

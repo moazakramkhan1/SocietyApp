@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from . import models
-from .routers import user,Authentication,imageUpload
+from .routers import user,Authentication,imageUpload,societies
 from .database import engine
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
@@ -21,3 +21,4 @@ app.add_middleware(
 app.include_router(user.router)
 app.include_router(Authentication.router)
 app.include_router(imageUpload.router)
+app.include_router(societies.router)

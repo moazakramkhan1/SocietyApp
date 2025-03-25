@@ -11,7 +11,7 @@ def upload(file:UploadFile):
         file_location = os.path.join(imageUpload.UPLOAD_DIR, new_filename)
         with open(file_location, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
-        file_url = f"/uploads/{new_filename}"
+        file_url = f"uploads/{new_filename}"
         return {"fileUrl": file_url}
 
     except Exception as e:

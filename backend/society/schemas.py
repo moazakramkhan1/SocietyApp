@@ -10,6 +10,14 @@ class User(BaseModel):
     role:str
     image:str
 
+class Society(BaseModel):
+    admin_id:int
+    name:str
+    description:str
+    members:int
+    image:str
+
+
 class ShowUser(BaseModel):
     username:str
     email:str

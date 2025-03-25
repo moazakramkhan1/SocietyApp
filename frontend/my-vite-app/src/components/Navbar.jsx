@@ -2,11 +2,12 @@ import { Notifications, AccountCircle } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import "../styles/Navbar.css";
 import getRoleORImageOREmailORId from '../getRole';
+import { mainEndpoint } from '../endPointUrls';
 
 function Navbar() {
     const imagePath = getRoleORImageOREmailORId(2);
-    const completeURL = imagePath ? `http://localhost:8000${imagePath}` : null;
-    console.log(completeURL)
+    const completeURL = imagePath ? `${mainEndpoint}${imagePath}` : null;
+    console.log(imagePath)
     return (
         <div className="navbar">
             <div className="navbar-content">
