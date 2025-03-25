@@ -6,7 +6,7 @@ import "../styles/SignUpform.css";
 import ImageUploader from './ImageUploader';
 import getRoleORImageOREmail from "../getRole";
 
-const CreateSocietyFormComponent = ({ setSocietyData, setModalStatus }) => {
+const CreateSocietyFormComponent = ({setModalStatus }) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [image, setImage] = useState('');
     const [error, setError] = useState('');
@@ -63,8 +63,7 @@ const CreateSocietyFormComponent = ({ setSocietyData, setModalStatus }) => {
             }
 
             const response = await axios.post(CreateSocietyURL, data)
-            setMessage('Society Created Successfully');
-            setSocietyData(response.data);
+            setMessage('Society Created Successfully')
             setModalStatus(false);
         } catch (err) {
             console.error(err);

@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import JoinNowForm from "../components/JoinNowForm";
+import Modal from "../components/Modal";  // Reusing the Modal component
 import "../styles/SocietyDetailsComponent.css";
 
 const societyData = {
@@ -10,20 +12,18 @@ const societyData = {
       { title: "AI Workshop", date: "March 25" },
       { title: "Hackathon", date: "April 10" },
     ],
-  },
-  2: {
-    name: "Music Lovers",
-    description: "A society for music enthusiasts to explore different genres and instruments.",
-    committee: ["David Lee", "Emma Watson", "John Carter"],
-    events: [
-      { title: "Jazz Night", date: "March 30" },
-      { title: "Rock Concert", date: "April 15" },
-    ],
-  },
+  }
+};
+
+const user = { 
+  name: "John Doe", 
+  email: "johndoe@example.com" 
 };
 
 const SocietyDetails = () => {
-  const society = societyData[2];
+  const [modalStatus, setModalStatus] = useState(false);
+
+  const society = societyData[1];
 
   if (!society) {
     return <div className="error">Society not found</div>;
@@ -31,9 +31,9 @@ const SocietyDetails = () => {
 
   return (
     <div className="society-details-container">
-
       <h1 className="society-name">{society.name}</h1>
       <p className="description">{society.description}</p>
+
       <h2 className="section-title">Committee Members</h2>
       <ul className="committee-list">
         {society.committee.map((member, index) => (
@@ -50,7 +50,16 @@ const SocietyDetails = () => {
           </div>
         ))}
       </div>
-      <button className="join-button">Join Now</button>
+
+      {/* Open Join Now Modal */}
+      <button className="join-button" onClick={() => setModalStatus(true)}>Join Now</button>
+
+      {/* Modal to show JoinNow component */}
+      {modalStatus && (
+        <Modal showModal={modalStatus} closeModal={() => setModalStatus(false)}>
+          <JoinNowForm user={user} />
+        </Modal>
+      )}
     </div>
   );
 };

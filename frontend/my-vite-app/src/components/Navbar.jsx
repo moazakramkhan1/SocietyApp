@@ -6,7 +6,7 @@ import { mainEndpoint } from '../endPointUrls';
 
 function Navbar() {
     const imagePath = getRoleORImageOREmailORId(2);
-    const completeURL = imagePath ? `${mainEndpoint}${imagePath}` : null;
+    const completeURL = imagePath ? `${mainEndpoint}/${imagePath}` : null;
     console.log(imagePath)
     return (
         <div className="navbar">

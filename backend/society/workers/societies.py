@@ -3,9 +3,9 @@ from sqlalchemy.orm import Session
 
 
 
-
-# def getAll():
-#     return null
+def get_all_societies(db: Session):
+    societies = db.query(models.Societies).all()
+    return societies
 
 
 def create_society(request:schemas.Society,db:Session):

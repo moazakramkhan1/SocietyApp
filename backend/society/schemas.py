@@ -18,6 +18,7 @@ class Society(BaseModel):
     image:str
 
 
+
 class ShowUser(BaseModel):
     username:str
     email:str
