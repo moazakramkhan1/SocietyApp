@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import JoinNowForm from "../components/JoinNowForm";
-import Modal from "../components/Modal";  // Reusing the Modal component
+import Modal from "../components/Modal";
 import "../styles/SocietyDetailsComponent.css";
 
 const societyData = {
@@ -15,9 +15,9 @@ const societyData = {
   }
 };
 
-const user = { 
-  name: "John Doe", 
-  email: "johndoe@example.com" 
+const user = {
+  name: "John Doe",
+  email: "johndoe@example.com"
 };
 
 const SocietyDetails = () => {
@@ -51,10 +51,7 @@ const SocietyDetails = () => {
         ))}
       </div>
 
-      {/* Open Join Now Modal */}
       <button className="join-button" onClick={() => setModalStatus(true)}>Join Now</button>
-
-      {/* Modal to show JoinNow component */}
       {modalStatus && (
         <Modal showModal={modalStatus} closeModal={() => setModalStatus(false)}>
           <JoinNowForm user={user} />

@@ -1,8 +1,8 @@
 import '../styles/SocietyComponent.css'
 import { SocietyDetailScreenRoute } from "../routes";
-import { mainEndpoint, AllSocietiesURL} from '../endPointUrls';
-const SocietyComponent = ({societies}) => {
-  
+import { mainEndpoint } from '../endPointUrls';
+const SocietyComponent = ({ societies }) => {
+
   return (
     <div className="society-list">
       {societies.map((society, index) => {

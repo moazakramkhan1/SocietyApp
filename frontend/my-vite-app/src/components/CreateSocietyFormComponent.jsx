@@ -6,7 +6,7 @@ import "../styles/SignUpform.css";
 import ImageUploader from './ImageUploader';
 import getRoleORImageOREmail from "../getRole";
 
-const CreateSocietyFormComponent = ({setModalStatus }) => {
+const CreateSocietyFormComponent = ({ setModalStatus, handleRefresh }) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [image, setImage] = useState('');
     const [error, setError] = useState('');
@@ -70,6 +70,7 @@ const CreateSocietyFormComponent = ({setModalStatus }) => {
             setError('Something went wrong!');
         } finally {
             setLoading(false);
+            handleRefresh()
         }
     };
 

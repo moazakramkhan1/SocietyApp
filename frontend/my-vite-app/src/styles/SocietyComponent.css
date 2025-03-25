@@ -1,40 +1,39 @@
 .society-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-  }
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
 
-  .society-card {
-    background-color: white;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    padding: 15px;
-    text-align: center;
-    width: 100%;
-  }
-  
-  .society-image {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 8px;
-  }
-  
-  .society-name {
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 10px;
-  }
-  
-  .society-description {
-    font-size: 14px;
-    color: #666;
-    margin-top: 5px;
-  }
-  
-  .society-members {
-    font-size: 14px;
-    color: #444;
-    margin-top: 5px;
-  }
-  
+.society-card {
+  background-color: white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 15px;
+  text-align: center;
+  width: 100%;
+}
+
+.society-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.society-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.society-description {
+  font-size: 14px;
+  color: #666;
+  margin-top: 5px;
+}
+
+.society-members {
+  font-size: 14px;
+  color: #444;
+  margin-top: 5px;
+}

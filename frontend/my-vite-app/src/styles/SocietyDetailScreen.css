@@ -1,0 +1,65 @@
+.society-details-screen {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #f0f4f8;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 40px;
+    margin-left: 120px;
+    margin-top: 80px;
+    position: relative;
+}
+
+.admin-actions {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    display: flex;
+    gap: 15px;
+}
+
+.editSociety-btn,
+.DeleteSociety-btn {
+    background-color: #30a7c9;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.editSociety-btn:hover,
+.DeleteSociety-btn:hover {
+    background-color: #2a95b3;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.DeleteSociety-btn {
+    background-color: #dc3545;
+}
+
+.DeleteSociety-btn:hover {
+    background-color: #c82333;
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .admin-actions {
+        position: static;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+}
