@@ -28,4 +28,20 @@ def create_society(request:schemas.Society,db:Session):
     db.refresh(newSociety)
     return newSociety
 
+def update_society(id: int, request: schemas.UpdateSociety, db: Session):
+    society = db.query(models.Societies).filter(models.Societies.id == id).first()
+    
+    if not society:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Society with ID {id} not found")
+
+    if request.name is not None:
+        society.name = request.name
+    if request.description is not None:
+        society.description = request.description
+    if request.image is not None:
+        society.image = request.image
+
+    db.commit()
+    db.refresh(society)
+    return society
 

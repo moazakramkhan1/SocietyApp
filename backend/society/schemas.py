@@ -32,6 +32,14 @@ class Society(BaseModel):
     class Config:
         from_attributes = True
 
+class UpdateSociety(BaseModel):
+    name: Optional[str] = None
+    description: Optional[str] = None
+    image: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
 
 class Membership(BaseModel):
     user_id: int

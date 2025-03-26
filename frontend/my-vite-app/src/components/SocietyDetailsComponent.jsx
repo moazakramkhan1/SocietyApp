@@ -73,6 +73,8 @@ const SocietyDetails = ({ setSocietyData }) => {
     return <MyError message="Society not found." />;
   }
 
+  
+
   return (
     <div className="society-details-container">
       <h1 className="society-name">{society.name}</h1>
