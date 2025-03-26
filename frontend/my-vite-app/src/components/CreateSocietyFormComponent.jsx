@@ -20,7 +20,7 @@ const CreateSocietyFormComponent = ({ setModalStatus, handleRefresh }) => {
         admin_id: 0,
         name: '',
         description: '',
-        members: 1,
+        num_members: 1,
         image: ''
     });
 
@@ -57,12 +57,12 @@ const CreateSocietyFormComponent = ({ setModalStatus, handleRefresh }) => {
 
         try {
             const imageUrl = await uploadImage();
-            if (imageUrl) {
-                setImage(`${mainEndpoint}/${imageUrl}`);
-                data.image = imageUrl;
-            }
+            const SocietyData = {
+                ...data,
+                image: imageUrl ? `${mainEndpoint}/${imageUrl}` : '',
+            };
 
-            const response = await axios.post(CreateSocietyURL, data)
+            const response = await axios.post(CreateSocietyURL, SocietyData)
             setMessage('Society Created Successfully')
             setModalStatus(false);
         } catch (err) {

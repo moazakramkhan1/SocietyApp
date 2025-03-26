@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import ImageUploader from "./ImageUploader";
 import '../styles/JoinNowForm.css';
+import Loader from '../components/Loader'
 
-function JoinNowForm({ adminPhone, adminPlatform }) {
+
+function JoinNowForm({ isloading, adminName, adminPhone }) {
   const [selectedFile, setSelectedFile] = useState(null);
-
+  if (isloading) {
+    <Loader />
+  }
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!selectedFile) {
@@ -19,16 +23,21 @@ function JoinNowForm({ adminPhone, adminPlatform }) {
       <h2>Join Society</h2>
       <form onSubmit={handleSubmit} className="join-form">
         <div className="form-group">
+          <label>Acount Name:</label>
+          <input type="text" value={adminName} readOnly />
+        </div>
+
+        <div className="form-group">
           <label>Acount Number:</label>
           <input type="text" value={adminPhone} readOnly />
         </div>
 
         <div className="form-group">
           <label>Payment Platform:</label>
-          <input type="text" value={adminPlatform} readOnly />
+          <input type="text" value={"jazzCash/Sadapay/Easypaisa"} readOnly />
         </div>
 
-        <ImageUploader />
+        <ImageUploader setSelectedFile={setSelectedFile} />
         <button type="submit" className="confirm-button">Confirm Payment</button>
       </form>
     </div>

@@ -2,12 +2,10 @@ import { Notifications, AccountCircle } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import "../styles/Navbar.css";
 import getRoleORImageOREmailORId from '../getRole';
-import { mainEndpoint } from '../endPointUrls';
+
 
 function Navbar() {
     const imagePath = getRoleORImageOREmailORId(2);
-    const completeURL = imagePath ? `${mainEndpoint}/${imagePath}` : null;
-    console.log(imagePath)
     return (
         <div className="navbar">
             <div className="navbar-content">
@@ -21,7 +19,7 @@ function Navbar() {
                     <Tooltip title="Profile">
                         <a href="#" className="nav-item">
                             {imagePath ? (
-                                <img src={completeURL} alt="Profile" className="profileImage" />
+                                <img src={imagePath} alt="Profile" className="profileImage" />
                             ) : (
                                 <AccountCircle fontSize="large" />
                             )}

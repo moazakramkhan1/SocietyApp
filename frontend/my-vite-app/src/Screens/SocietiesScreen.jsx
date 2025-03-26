@@ -12,7 +12,6 @@ import Loader from '../components/Loader'
 
 function SocietiesScreen() {
   const userRole = getRoleORImageOREmail(1)
-  console.log(userRole)
   const [modalStatus, setModalStatus] = useState(false);
   const [societies, SetSocieties] = useState([])
   const [error, setError] = useState('')

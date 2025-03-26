@@ -1,32 +1,65 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import JoinNowForm from "../components/JoinNowForm";
 import Modal from "../components/Modal";
 import "../styles/SocietyDetailsComponent.css";
-
-const societyData = {
-  1: {
-    name: "Tech Enthusiasts",
-    description: "A community for tech lovers to share knowledge and collaborate.",
-    committee: ["Alice Johnson", "Bob Smith", "Charlie Davis"],
-    events: [
-      { title: "AI Workshop", date: "March 25" },
-      { title: "Hackathon", date: "April 10" },
-    ],
-  }
-};
-
-const user = {
-  name: "John Doe",
-  email: "johndoe@example.com"
-};
+import MyError from "../components/ErrorComponent"
+import axios from 'axios'
+import { SpecificSocietyURL, SocietyAdminURL } from "../endPointUrls";
+import Loader from "./Loader";
+import getRoleORImageOREmailORId from "../getRole";
 
 const SocietyDetails = () => {
+  let userRole = getRoleORImageOREmailORId(1)
   const [modalStatus, setModalStatus] = useState(false);
+  const [adminData, setAdminData] = useState({
+    name: '',
+    phonenumber: ''
+  })
+  const [society, setSociety] = useState(null);
+  const [isloading, setIsloading] = useState(false);
+  const { id } = useParams();
+  const fetchSocietyDetails = async () => {
+    try {
+      setIsloading(true)
+      let response = await axios.get(`${SpecificSocietyURL}${id}`)
+      setSociety(response.data)
+    } catch (e) {
+      <MyError message={e} />
+    } finally {
+      setIsloading(false);
+    }
 
-  const society = societyData[1];
+  }
+  const fetchAdminDetails = async () => {
+    try {
+      setIsloading(true)
+      let response = await axios.get(`${SocietyAdminURL}${society.admin_id}`)
+      setAdminData({
+        name: response.data.username,
+        phonenumber: response.data.phonenumber,
+      });
+    } catch (e) {
+      <MyError message={e} />
+    } finally {
+      setIsloading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchSocietyDetails()
+  }, [])
+  useEffect(() => {
+    if (society?.admin_id) {
+      fetchAdminDetails();
+    }
+  }, [society])
 
   if (!society) {
-    return <div className="error">Society not found</div>;
+    return <MyError message={"Society not found"} />;
+  }
+  if (isloading) {
+    <Loader />
   }
 
   return (
@@ -36,27 +69,39 @@ const SocietyDetails = () => {
 
       <h2 className="section-title">Committee Members</h2>
       <ul className="committee-list">
-        {society.committee.map((member, index) => (
+        {society?.executive_memberships?.map((member, index) => (
           <li key={index}>{member}</li>
         ))}
       </ul>
 
       <h2 className="section-title">Upcoming Events</h2>
       <div className="events-container">
-        {society.events.map((event, index) => (
+        {society?.events?.map((event, index) => (
           <div className="event-card" key={index}>
             <h3>{event.title}</h3>
             <p>{event.date}</p>
+            <p>{event.time}</p>
           </div>
         ))}
       </div>
+      {userRole !== 'admin' && (
+        <>
+          <button className="join-button" onClick={() => setModalStatus(true)}>
+            Join Now
+          </button>
 
-      <button className="join-button" onClick={() => setModalStatus(true)}>Join Now</button>
-      {modalStatus && (
-        <Modal showModal={modalStatus} closeModal={() => setModalStatus(false)}>
-          <JoinNowForm user={user} />
-        </Modal>
+          {modalStatus && (
+            <Modal showModal={modalStatus} closeModal={() => setModalStatus(false)}>
+              <JoinNowForm
+                isloading={isloading}
+                adminName={adminData.name}
+                adminPhone={adminData.phonenumber}
+              />
+            </Modal>
+          )}
+        </>
       )}
+
     </div>
   );
 };

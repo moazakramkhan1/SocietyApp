@@ -13,7 +13,7 @@ uploads_path = os.path.join(current_dir, "uploads")
 app.mount("/uploads", StaticFiles(directory=uploads_path), name="uploads")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins='http://localhost:5173', 
+    allow_origins='*', 
     allow_credentials=True,
     allow_methods=["*"], 
     allow_headers=["*"],  
