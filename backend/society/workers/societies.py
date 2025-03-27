@@ -49,3 +49,14 @@ def allMembers(db:Session):
     members = db.query(models.Societies.members).all()
     return members
 
+def delete_society(id: int, db: Session):
+    society = db.query(models.Societies).filter(models.Societies.id == id).first()
+    if not society:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Society with ID {id} not found"
+        )
+    db.delete(society)
+    db.commit()
+    return {"message": "Society deleted successfully"}
+

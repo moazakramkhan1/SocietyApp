@@ -11,4 +11,5 @@ export const UpdateSociety = 'http://127.0.0.1:8000/societyUpdate/'
 export const JoinNowURL = 'http://127.0.0.1:8000/memberRequest'
 export const AllRequestsURL = 'http://127.0.0.1:8000/getallRequests'
 export const AllMembersURL = 'http://127.0.0.1:8000/allMembers'
+export const DeleteSocietyURL = 'http://127.0.0.1:8000/societyDelete/'
 

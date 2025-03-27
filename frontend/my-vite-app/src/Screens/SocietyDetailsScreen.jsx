@@ -6,7 +6,7 @@ import getRoleORImageOREmailORId from "../getRole";
 import '../styles/SocietyDetailScreen.css'
 import Modal from "../components/Modal";
 import UpdateSocietyFormComponent from "../components/UpdateSocietyFormComponent";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { DeleteSocietyURL } from "../endPointUrls";
 import {SocietiesScreenRoute} from '../routes';
 import axios from "axios";
@@ -20,6 +20,8 @@ const SocietyDetailsScreen = () => {
   const [societyData, setSocietyData] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const {id} = useParams();
+  const numericId = parseInt(id);
   const openModal = () => {
     setModalStatus(true);
   }
@@ -27,22 +29,23 @@ const SocietyDetailsScreen = () => {
     setModalStatus(false);
   }
   const handleDeleteSociety = async () => {
-    if (!societyData?.id) {
+    if (!id) {
       alert("Society ID is missing!");
       return;
     }
-
+  
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this society? This action cannot be undone."
     );
-
+  
     if (!confirmDelete) return;
-
+  
     try {
       setLoading(true);
-      await axios.delete(`${DeleteSocietyURL}${societyData.id}`);
+      console.log(`Deleting society with URL: ${DeleteSocietyURL}${id}`); // Debugging log
+      await axios.delete(`${DeleteSocietyURL}${id}`);
       alert("Society deleted successfully!");
-      navigate(SocietiesScreenRoute); 
+      navigate(SocietiesScreenRoute); // Redirect to societies list
     } catch (error) {
       console.error("Error deleting society:", error);
       alert("Failed to delete society. Please try again.");
@@ -60,7 +63,7 @@ const SocietyDetailsScreen = () => {
         {(userRole == 'admin' && user_id === societyData?.admin_id) &&
           <div className="admin-actions">
             <button className="editSociety-btn" onClick={openModal}>Edit Society </button>
-            <button className="DeleteSociety-btn" onClick={handleDeleteSociety} disabled = {loading}>Delete Society
+            <button className="DeleteSociety-btn" onClick={handleDeleteSociety} disabled = {loading}>
                {loading ? "Deleting..." : "Delete Society"}
             </button>
           </div>
