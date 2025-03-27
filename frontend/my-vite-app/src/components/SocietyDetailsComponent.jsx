@@ -9,7 +9,7 @@ import { SpecificSocietyURL, SocietyAdminURL } from "../endPointUrls";
 import Loader from "./Loader";
 import getRoleORImageOREmailORId from "../getRole";
 
-const SocietyDetails = ({ setSocietyData }) => {
+const SocietyDetails = ({ setSocietyData, setLoading}) => {
   const userRole = getRoleORImageOREmailORId(1);
   const userid = getRoleORImageOREmailORId(4);
   const { id } = useParams();
@@ -20,6 +20,12 @@ const SocietyDetails = ({ setSocietyData }) => {
   const [isSocietyLoading, setIsSocietyLoading] = useState(false);
   const [isAdminLoading, setIsAdminLoading] = useState(false);
   const [error, setError] = useState(null);
+  useEffect(() => {
+    console.log("isSocietyLoading:", isSocietyLoading, "isAdminLoading:", isAdminLoading);
+    const isLoading = isSocietyLoading || isAdminLoading;
+    console.log("Updating parent loading state to:", isLoading);
+    setLoading(isLoading);
+  }, [isSocietyLoading, isAdminLoading, setLoading]);
 
 
   const fetchSocietyDetails = async () => {

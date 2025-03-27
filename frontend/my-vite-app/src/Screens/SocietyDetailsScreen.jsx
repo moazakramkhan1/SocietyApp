@@ -7,7 +7,6 @@ import '../styles/SocietyDetailScreen.css'
 import Modal from "../components/Modal";
 import UpdateSocietyFormComponent from "../components/UpdateSocietyFormComponent";
 
-
 const SocietyDetailsScreen = () => {
   const userRole = getRoleORImageOREmailORId(1);
   const user_id = getRoleORImageOREmailORId(4);
@@ -32,7 +31,7 @@ const SocietyDetailsScreen = () => {
             <button className="DeleteSociety-btn">Delete Society </button>
           </div>
         }
-        <SocietyDetails setSocietyData={setSocietyData} />
+        <SocietyDetails setSocietyData={setSocietyData} setLoading={setLoading} />
       </div>
       {
         modalStatus && <Modal showModal={modalStatus} closeModal={closeModal}>

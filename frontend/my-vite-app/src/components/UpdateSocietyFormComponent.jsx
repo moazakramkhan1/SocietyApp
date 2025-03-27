@@ -41,7 +41,6 @@ const UpdateSocietyFormComponent = ({ societyData, setModalStatus }) => {
     };
 
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');

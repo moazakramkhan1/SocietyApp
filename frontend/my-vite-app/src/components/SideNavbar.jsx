@@ -6,6 +6,7 @@ import { Tooltip } from '@mui/material';
 import getRoleORImageOREmailORId from '../getRole';
 
 
+
 function SideNavbar() {
     const userRole = getRoleORImageOREmailORId(1);
     return (
