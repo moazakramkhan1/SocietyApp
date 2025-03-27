@@ -4,6 +4,7 @@ import logo from '../static/logo.jpg';
 import { AboutScreenRoute, HomeRoute, LoginSignupScreenRoute, SocietiesScreenRoute } from '../routes';
 import { Tooltip } from '@mui/material';
 
+
 function SideNavbar() {
     return (
         <div className="side-navbar">

@@ -44,6 +44,7 @@
 
 .admin-actions1 button {
   background-color: #30a7c9;
+  width: 150px;
   color: white;
   border: none;
   padding: 10px 15px;
