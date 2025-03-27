@@ -28,3 +28,7 @@ def createSociety(request:schemas.Society,db:Session=Depends(database.get_db)):
 @router.get('/allMembers',status_code=status.HTTP_200_OK)
 def getAllMembers(db:Session=Depends(database.get_db)):
  return societies.allMembers(db)
+
+@router.delete('/societyDelete/{id}', status_code=status.HTTP_204_NO_CONTENT)
+def delete_society(id: int, db: Session = Depends(database.get_db)):
+    return societies.delete_society(id, db)
