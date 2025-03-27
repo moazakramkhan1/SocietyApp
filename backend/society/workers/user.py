@@ -6,6 +6,8 @@ def create(request:schemas.User,db:Session):
     newUser = models.User(username=request.username,
                           email=request.email,
                           phonenumber=request.phonenumber,
+                          designation=request.designation,
+                          department=request.department,
                           password=Hash.hashPwd(request.password),
                           confirmpassword=Hash.hashPwd(request.confirmpassword),
                           role=request.role,

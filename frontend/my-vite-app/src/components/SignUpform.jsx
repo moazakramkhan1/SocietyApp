@@ -4,6 +4,7 @@ import { SignUpUrl, imageUploadURL, mainEndpoint } from "../endPointUrls";
 import Loader from "./Loader";
 import "../styles/SignUpform.css";
 import ImageUploader from './ImageUploader';
+import { UploadImage } from "../uploadImage";
 
 const Signup = ({ setFormType }) => {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -13,6 +14,8 @@ const Signup = ({ setFormType }) => {
         username: '',
         email: '',
         phonenumber: '',
+        designation: '',
+        department: '',
         password: '',
         confirmpassword: '',
         role: '',
@@ -24,19 +27,6 @@ const Signup = ({ setFormType }) => {
         setData((prevData) => ({ ...prevData, [name]: value }));
     };
 
-    const uploadImage = async () => {
-        if (!selectedFile) return null;
-        const formData = new FormData();
-        formData.append('file', selectedFile);
-
-        try {
-            const response = await axios.post(imageUploadURL, formData);
-            return response.data.fileUrl;
-        } catch (error) {
-            setError('Image upload failed.');
-            return null;
-        }
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -50,17 +40,21 @@ const Signup = ({ setFormType }) => {
         setLoading(true);
 
         try {
-            const imageUrl = await uploadImage();
+            const imageUrl = selectedFile ? await UploadImage(selectedFile) : '';
 
             const userData = {
                 ...data,
                 image: imageUrl ? `${mainEndpoint}/${imageUrl}` : '',
+                designation: data.designation || null,
             };
+
+            console.log("Sending user data:", userData);
 
             await axios.post(SignUpUrl, userData);
             setFormType('login');
         }
         catch (err) {
+            console.error("Error during signup:", err.response?.data || err.message);
             setError('User creation failed!');
         } finally {
             setLoading(false);
@@ -73,6 +67,8 @@ const Signup = ({ setFormType }) => {
                 <input name="username" placeholder="Username" value={data.username} type="text" onChange={handleChange} required />
                 <input name="email" placeholder="Email" value={data.email} type="email" onChange={handleChange} required />
                 <input name="phonenumber" placeholder="Phone Number" value={data.phonenumber} type="text" onChange={handleChange} maxLength={11} />
+                <input name="designation" placeholder="Designation(if not leave empty)" value={data.designation} type="text" onChange={handleChange} />
+                <input name="department" placeholder="Department" value={data.department} type="text" onChange={handleChange} />
                 <input name="password" placeholder="Password" value={data.password} type="password" onChange={handleChange} required />
                 <input name="confirmpassword" placeholder="Confirm Password" value={data.confirmpassword} type="password" onChange={handleChange} required />
                 <ImageUploader setSelectedFile={setSelectedFile} />

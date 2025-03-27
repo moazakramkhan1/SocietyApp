@@ -1,21 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from 'react-router-dom'
 import ImageUploader from "./ImageUploader";
 import '../styles/JoinNowForm.css';
 import Loader from '../components/Loader'
+import { UploadImage } from '../uploadImage'
+import axios from "axios";
+import getRoleORImageOREmailORId from '../getRole'
+import { JoinNowURL } from '../endPointUrls'
+import ErrorComponent from './ErrorComponent'
 
 
 function JoinNowForm({ isloading, adminName, adminPhone }) {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [imageURL, setImageURL] = useState('');
+  const user_id = getRoleORImageOREmailORId(4)
+  const { id } = useParams()
+
+  const [data, setData] = useState({
+    user_id: 0,
+    society_id: 0,
+    image: ''
+  })
   if (isloading) {
     <Loader />
   }
-  const handleSubmit = (event) => {
+  useEffect(() => {
+    setData({
+      user_id: user_id,
+      society_id: id,
+      image: imageURL
+    })
+  }, [user_id, imageURL, id])
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (!selectedFile) {
       alert("Please upload a payment screenshot!");
       return;
     }
-    alert("Payment confirmed. Screenshot uploaded successfully!");
+    try {
+      image = await UploadImage(selectedFile);
+      setImageURL(image)
+      await axios.post(JoinNowURL, data)
+    } catch (e) {
+      return <ErrorComponent message={e.message} />
+    }
   };
 
   return (

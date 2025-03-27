@@ -45,3 +45,7 @@ def update_society(id: int, request: schemas.UpdateSociety, db: Session):
     db.refresh(society)
     return society
 
+def allMembers(db:Session):
+    members = db.query(models.Societies.members).all()
+    return members
+

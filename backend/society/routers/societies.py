@@ -24,3 +24,7 @@ def update_society_endpoint(id: int, request: schemas.UpdateSociety, db: Session
 @router.post('/createSociety',status_code=status.HTTP_201_CREATED)
 def createSociety(request:schemas.Society,db:Session=Depends(database.get_db)):
  return societies.create_society(request,db)
+
+@router.get('/allMembers',status_code=status.HTTP_200_OK)
+def getAllMembers(db:Session=Depends(database.get_db)):
+ return societies.allMembers(db)

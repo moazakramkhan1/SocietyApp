@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey,Date,Time
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, Session
 from .database import Base
 
 class User(Base):
@@ -9,6 +9,8 @@ class User(Base):
     username = Column(String)
     email = Column(String)
     phonenumber = Column(String, nullable=True)
+    designation = Column(String, nullable=True,default='Member')
+    department = Column(String, nullable=True,default='NA')
     password = Column(String)
     confirmpassword = Column(String)
     role = Column(String)
@@ -19,6 +21,7 @@ class User(Base):
     
     societies = relationship("Societies", secondary="memberships", back_populates="members", overlaps="memberships")
     executive_memberships = relationship("ExecutiveMembership", back_populates="user")
+    requests = relationship("Requests", back_populates="user")
 
 class Societies(Base):
     __tablename__ = "Societies"
@@ -36,6 +39,9 @@ class Societies(Base):
     members = relationship("User", secondary="memberships", back_populates="societies", overlaps="memberships")
     executive_memberships = relationship("ExecutiveMembership", back_populates="society")
     events = relationship("Events", back_populates="society")
+    requests = relationship("Requests", back_populates="society")
+
+
 
 class Membership(Base):
     __tablename__ = "memberships"
@@ -69,3 +75,28 @@ class Events(Base):
     time = Column(Time, nullable=False)
     society_id = Column(Integer, ForeignKey("Societies.id"))
     society = relationship("Societies", back_populates="events")
+
+
+class Requests(Base):
+    __tablename__ = 'requests' 
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    society_id = Column(Integer, ForeignKey("Societies.id"))
+    user_email = Column(String)
+    user_designation = Column(String)
+    user_department = Column(String)
+    status = Column(String, default='pending')
+    image = Column(String)
+
+    user = relationship("User", back_populates="requests")
+    society = relationship("Societies", back_populates="requests")
+
+    def __init__(self, user_id, society_id, session: Session, **kwargs):
+        super().__init__(**kwargs)
+        self.user_id = user_id
+        self.society_id = society_id
+        user = session.query(User).filter_by(id=user_id).first()
+        if user:
+            self.user_email = user.email
+            self.user_designation = user.desingation
+            self.user_department = user.department

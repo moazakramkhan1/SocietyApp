@@ -1,10 +1,13 @@
-import { Home, AccountCircle, ExitToApp, AddCircle } from '@mui/icons-material';
+import { Home, AccountCircle, ExitToApp, AddCircle, RequestPage } from '@mui/icons-material';
 import '../styles/SideNavbar.css';
 import logo from '../static/logo.jpg';
-import { AboutScreenRoute, HomeRoute, LoginSignupScreenRoute, SocietiesScreenRoute } from '../routes';
+import { AboutScreenRoute, HomeRoute, LoginSignupScreenRoute, SocietiesScreenRoute, MemberRequestScreenRoute } from '../routes';
 import { Tooltip } from '@mui/material';
+import getRoleORImageOREmailORId from '../getRole';
+
 
 function SideNavbar() {
+    const userRole = getRoleORImageOREmailORId(1);
     return (
         <div className="side-navbar">
             <div className="side-navbar-content">
@@ -26,6 +29,14 @@ function SideNavbar() {
                         <AddCircle />
                     </a>
                 </Tooltip>
+
+
+                <Tooltip title={userRole === 'admin' ? 'Manage Society' : 'My Requests'} placement='right'>
+                    <a href={MemberRequestScreenRoute} className="nav-item">
+                        <RequestPage />
+                    </a>
+                </Tooltip>
+
 
                 <Tooltip title='Logout' placement='right'>
                     <a href={LoginSignupScreenRoute} className="nav-item">

@@ -6,12 +6,15 @@ class User(BaseModel):
     username: str
     email: str
     phonenumber: str
+    designation: str
+    department:str
     password: str
     confirmpassword: str
     role: str
     image: Optional[str] = None
     societies: List["Society"] = []
     executive_societies: List["Society"] = []
+    requests: List["Request"] = []
 
     class Config:
         from_attributes = True
@@ -28,6 +31,7 @@ class Society(BaseModel):
     members: List[User] = []
     executives: List[User] = []
     events:List[Events] = []
+    requests: List["Request"] = []
 
     class Config:
         from_attributes = True
@@ -53,6 +57,14 @@ class ExecutiveMembership(BaseModel):
     user_id: int
     society_id: int
     designation: str
+
+    class Config:
+        from_attributes = True
+
+class Request(BaseModel):
+    user_id: int
+    society_id: int
+    image: Optional[str] = None
 
     class Config:
         from_attributes = True

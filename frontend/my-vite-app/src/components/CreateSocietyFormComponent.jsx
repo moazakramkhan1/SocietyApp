@@ -5,6 +5,7 @@ import Loader from "./Loader";
 import "../styles/SignUpform.css";
 import ImageUploader from './ImageUploader';
 import getRoleORImageOREmail from "../getRole";
+import { UploadImage } from "../uploadImage";
 
 const CreateSocietyFormComponent = ({ setModalStatus, handleRefresh }) => {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -39,15 +40,7 @@ const CreateSocietyFormComponent = ({ setModalStatus, handleRefresh }) => {
         setData((prevData) => ({ ...prevData, [name]: value }));
     };
 
-    const uploadImage = async () => {
-        if (!selectedFile) return null;
 
-        const formData = new FormData();
-        formData.append('file', selectedFile);
-
-        const response = await axios.post(imageUploadURL, formData);
-        return response.data.fileUrl;
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -56,7 +49,7 @@ const CreateSocietyFormComponent = ({ setModalStatus, handleRefresh }) => {
         setLoading(true);
 
         try {
-            const imageUrl = await uploadImage();
+            const imageUrl = await UploadImage(selectedFile);
             const SocietyData = {
                 ...data,
                 image: imageUrl ? `${mainEndpoint}/${imageUrl}` : '',

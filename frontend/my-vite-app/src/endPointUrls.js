@@ -1,5 +1,5 @@
 export const mainEndpoint = 'http://localhost:8000'
-export const SignUpUrl = 'http://127.0.0.1:8000/signUp';
+export const SignUpUrl = 'http://127.0.0.1:8000/signUp'
 export const LoginUrl = 'http://127.0.0.1:8000/login'
 export const AllSocietiesURL = 'http://127.0.0.1:8000/societies'
 export const AllEventsURL = 'http://127.0.0.1:8000/events'
@@ -8,4 +8,7 @@ export const CreateSocietyURL = 'http://127.0.0.1:8000/createSociety'
 export const SpecificSocietyURL = 'http://127.0.0.1:8000/society/'
 export const SocietyAdminURL = 'http://127.0.0.1:8000/admin/'
 export const UpdateSociety = 'http://127.0.0.1:8000/societyUpdate/'
+export const JoinNowURL = 'http://127.0.0.1:8000/memberRequest'
+export const AllRequestsURL = 'http://127.0.0.1:8000/getallRequests'
+export const AllMembersURL = 'http://127.0.0.1:8000/allMembers'
 

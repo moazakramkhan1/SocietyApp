@@ -21,6 +21,7 @@ const SocietyDetails = ({ setSocietyData }) => {
   const [isAdminLoading, setIsAdminLoading] = useState(false);
   const [error, setError] = useState(null);
 
+
   const fetchSocietyDetails = async () => {
     try {
       setIsSocietyLoading(true);
@@ -31,6 +32,7 @@ const SocietyDetails = ({ setSocietyData }) => {
       console.error(e);
       setError("Failed to fetch society details.");
     } finally {
+      console.log("Setting isSocietyLoading to false");
       setIsSocietyLoading(false);
     }
   };
@@ -73,7 +75,7 @@ const SocietyDetails = ({ setSocietyData }) => {
     return <MyError message="Society not found." />;
   }
 
-  
+
 
   return (
     <div className="society-details-container">
