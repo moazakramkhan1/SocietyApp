@@ -31,7 +31,7 @@ const SocietyDetailsScreen = () => {
             <button className="DeleteSociety-btn">Delete Society </button>
           </div>
         }
-        <SocietyDetails setSocietyData={setSocietyData} setLoading={setLoading} />
+        <SocietyDetails setSocietyData={setSocietyData} />
       </div>
       {
         modalStatus && <Modal showModal={modalStatus} closeModal={closeModal}>

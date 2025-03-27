@@ -64,6 +64,7 @@ class ExecutiveMembership(BaseModel):
 class Request(BaseModel):
     user_id: int
     society_id: int
+    status: str
     image: Optional[str] = None
 
     class Config:

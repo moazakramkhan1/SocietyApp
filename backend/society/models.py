@@ -98,5 +98,5 @@ class Requests(Base):
         user = session.query(User).filter_by(id=user_id).first()
         if user:
             self.user_email = user.email
-            self.user_designation = user.desingation
+            self.user_designation = user.designation
             self.user_department = user.department

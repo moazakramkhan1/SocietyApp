@@ -28,10 +28,8 @@ const MemberRequestComponent = () => {
         try {
             const responseRequest = await axios.get(AllRequestsURL);
             const responseMembers = await axios.get(AllMembersURL);
-            console.log(responseRequest.data)
-            console.log(responseMembers.data)
-            // setRequests(response.data);
-            // setMembers(responseMembers.data);
+            setRequests(responseRequest.data);
+            setMembers(responseMembers.data);
         } catch (error) {
             console.error('Error fetching data', error);
         } finally {
@@ -106,7 +104,7 @@ const MemberRequestComponent = () => {
                             sx={{
                                 borderRadius: '20px !important',
                                 textTransform: 'none !important',
-                                backgroundColor: view === 'members' ? '#30a7c9 !important' : 'transparent !important', // Updated color
+                                backgroundColor: view === 'members' ? '#30a7c9 !important' : 'transparent !important',
                                 color: view === 'members' ? '#fff !important' : '#333 !important',
                                 px: '12px !important',
                                 py: '8px !important',

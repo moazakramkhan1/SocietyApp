@@ -10,27 +10,24 @@ import { JoinNowURL } from '../endPointUrls'
 import ErrorComponent from './ErrorComponent'
 
 
-function JoinNowForm({ isloading, adminName, adminPhone }) {
+function JoinNowForm({ isloading, adminName, adminPhone, setModalStatus }) {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [imageURL, setImageURL] = useState('');
+  const [message, setMessage] = useState('');
   const user_id = getRoleORImageOREmailORId(4)
   const { id } = useParams()
+  const numericId = parseInt(id);
 
   const [data, setData] = useState({
-    user_id: 0,
-    society_id: 0,
+    user_id: user_id,
+    society_id: numericId,
+    status: 'pending',
     image: ''
-  })
+  });
+
   if (isloading) {
-    <Loader />
+    return <Loader />
   }
-  useEffect(() => {
-    setData({
-      user_id: user_id,
-      society_id: id,
-      image: imageURL
-    })
-  }, [user_id, imageURL, id])
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!selectedFile) {
@@ -38,11 +35,18 @@ function JoinNowForm({ isloading, adminName, adminPhone }) {
       return;
     }
     try {
-      image = await UploadImage(selectedFile);
-      setImageURL(image)
-      await axios.post(JoinNowURL, data)
+      const image = await UploadImage(selectedFile);
+      const updatedData = {
+        ...data,
+        image: image
+      };
+      setData(updatedData);
+      let response = await axios.post(JoinNowURL, updatedData);
+      setMessage("your request has been submitted successfully");
+      setModalStatus(false);
     } catch (e) {
-      return <ErrorComponent message={e.message} />
+      console.error(e);
+      return <ErrorComponent message={e.message} />;
     }
   };
 
@@ -67,6 +71,7 @@ function JoinNowForm({ isloading, adminName, adminPhone }) {
 
         <ImageUploader setSelectedFile={setSelectedFile} />
         <button type="submit" className="confirm-button">Confirm Payment</button>
+        {message && <p>{message}</p>}
       </form>
     </div>
   );
