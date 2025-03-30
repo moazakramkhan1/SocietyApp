@@ -7,8 +7,7 @@ import { UploadImage } from '../uploadImage'
 import axios from "axios";
 import getRoleORImageOREmailORId from '../getRole'
 import { JoinNowURL } from '../endPointUrls'
-import ErrorComponent from './ErrorComponent'
-
+import { deleteImage } from "../deleteImage";
 
 function JoinNowForm({ isloading, adminName, adminPhone, setModalStatus }) {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -34,19 +33,22 @@ function JoinNowForm({ isloading, adminName, adminPhone, setModalStatus }) {
       alert("Please upload a payment screenshot!");
       return;
     }
+    let image = '';
     try {
-      const image = await UploadImage(selectedFile);
+      image = await UploadImage(selectedFile);
       const updatedData = {
         ...data,
         image: image
       };
-      setData(updatedData);
-      let response = await axios.post(JoinNowURL, updatedData);
-      setMessage("your request has been submitted successfully");
+      await axios.post(JoinNowURL, updatedData);
+      setMessage("Your request has been submitted successfully");
       setModalStatus(false);
     } catch (e) {
+      if (image) {
+        let delimgpath = image.split('/').pop();
+        await deleteImage(delimgpath);
+      }
       console.error(e);
-      return <ErrorComponent message={e.message} />;
     }
   };
 

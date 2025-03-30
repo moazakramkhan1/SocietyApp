@@ -6,6 +6,7 @@ import "../styles/SignUpform.css";
 import ImageUploader from './ImageUploader';
 import getRoleORImageOREmail from "../getRole";
 import { UploadImage } from "../uploadImage";
+import { deleteImage } from "../deleteImage";
 
 const CreateSocietyFormComponent = ({ setModalStatus, handleRefresh }) => {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -40,30 +41,30 @@ const CreateSocietyFormComponent = ({ setModalStatus, handleRefresh }) => {
         setData((prevData) => ({ ...prevData, [name]: value }));
     };
 
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
         setMessage('');
         setLoading(true);
-
+        let imageUrl = '';
         try {
-            const imageUrl = await UploadImage(selectedFile);
+            imageUrl = await UploadImage(selectedFile);
             const SocietyData = {
                 ...data,
                 image: imageUrl ? `${mainEndpoint}/${imageUrl}` : '',
             };
-
-            const response = await axios.post(CreateSocietyURL, SocietyData)
-            setMessage('Society Created Successfully')
+            await axios.post(CreateSocietyURL, SocietyData);
+            setMessage('Society Created Successfully');
             setModalStatus(false);
         } catch (err) {
-            console.error(err);
+            if (imageUrl) {
+                let delimgpath = imageUrl.split('/').pop();
+                await deleteImage(delimgpath);
+            }
             setError('Something went wrong!');
         } finally {
             setLoading(false);
-            handleRefresh()
+            handleRefresh();
         }
     };
 

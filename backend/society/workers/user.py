@@ -2,14 +2,13 @@ from fastapi import HTTPException,status
 from .. import models,schemas
 from ..hashing import Hash
 from sqlalchemy.orm import Session
-def create(request:schemas.User,db:Session):
+def create(request:schemas.UserCreate,db:Session):
     newUser = models.User(username=request.username,
                           email=request.email,
                           phonenumber=request.phonenumber,
                           designation=request.designation,
                           department=request.department,
                           password=Hash.hashPwd(request.password),
-                          confirmpassword=Hash.hashPwd(request.confirmpassword),
                           role=request.role,
                           image=request.image
                           )

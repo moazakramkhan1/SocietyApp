@@ -1,20 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { AllRequestsURL, AllMembersURL } from '../endPointUrls';
+import React, { useEffect, useState, useCallback } from 'react';
+import { GetAllSocietyRequests, GetAllUserRequests, AllMembersURL } from '../endPointUrls';
 import axios from 'axios';
-import {
-    ToggleButton,
-    ToggleButtonGroup,
-    Tooltip,
-    Badge,
-    Box,
-    Typography,
-    CircularProgress,
-    Stack,
-    Button
-} from '@mui/material';
-import PersonIcon from '@mui/icons-material/Person';
+import { Box, Typography, CircularProgress, Button } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import getRoleORImageOREmailORId from '../getRole'
+import PersonIcon from '@mui/icons-material/Person';
+import RequestsTable from './RequestsTable';
+import MembersTable from './MembersTable';
+import getRoleORImageOREmailORId from '../getRole';
 
 const MemberRequestComponent = () => {
     const [view, setView] = useState('requests');
@@ -22,33 +14,30 @@ const MemberRequestComponent = () => {
     const [members, setMembers] = useState([]);
     const [loading, setLoading] = useState(true);
     const userRole = getRoleORImageOREmailORId(1);
+    const user_id = getRoleORImageOREmailORId(4);
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         setLoading(true);
         try {
-            const responseRequest = await axios.get(AllRequestsURL);
-            const responseMembers = await axios.get(AllMembersURL);
-            setRequests(responseRequest.data);
-            setMembers(responseMembers.data);
+            if (userRole === 'admin') {
+                const requests = await axios.get(`${GetAllSocietyRequests}${user_id}`);
+                const members = await axios.get(`${AllMembersURL}${user_id}`);
+                setRequests(requests.data);
+                setMembers(members.data);
+            } else {
+                const requests = await axios.get(`${GetAllUserRequests}${user_id}`);
+                setRequests(requests.data);
+            }
         } catch (error) {
             console.error('Error fetching data', error);
         } finally {
             setLoading(false);
         }
-    };
+    }, [userRole, user_id]);
 
     useEffect(() => {
         fetchData();
-    }, []);
-
-    const handleViewChange = (event, newView) => {
-        if (newView) setView(newView);
-    };
-    const statusColors = {
-        Account: '#d4edda',
-        Lead: '#f8d7da',
-        Opportunity: '#fff3cd',
-    };
+    }, [fetchData]);
 
     return (
         <Box
@@ -59,8 +48,7 @@ const MemberRequestComponent = () => {
                 width: '100%',
                 height: 'calc(100vh - 60px)',
                 backgroundColor: '#f5f6fa',
-                overflowY: 'auto'
-
+                overflowY: 'auto',
             }}
         >
             {userRole === 'admin' && (
@@ -68,7 +56,6 @@ const MemberRequestComponent = () => {
                     <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#444' }}>
                         {view === 'requests' ? 'Member Requests' : 'Society Members'}
                     </Typography>
-
 
                     <Box
                         sx={{
@@ -93,7 +80,7 @@ const MemberRequestComponent = () => {
                                 transition: 'all 0.2s !important',
                                 '&:hover': {
                                     backgroundColor: view === 'requests' ? '#1e88a8 !important' : '#f3f4f6 !important',
-                                }
+                                },
                             }}
                             startIcon={<NotificationsIcon />}
                         >
@@ -112,7 +99,7 @@ const MemberRequestComponent = () => {
                                 transition: 'all 0.2s !important',
                                 '&:hover': {
                                     backgroundColor: view === 'members' ? '#1e88a8 !important' : '#f3f4f6 !important',
-                                }
+                                },
                             }}
                             startIcon={<PersonIcon />}
                         >
@@ -124,126 +111,13 @@ const MemberRequestComponent = () => {
 
             {loading ? (
                 <CircularProgress />
+            ) : view === 'requests' ? (
+                <RequestsTable requests={requests} userRole={userRole} refreshData={fetchData} />
             ) : (
-                <Box sx={{ overflowX: 'auto' }}>
-                    <table
-                        style={{
-                            width: '100%',
-                            borderCollapse: 'separate',
-                            borderSpacing: '0 10px',
-                            backgroundColor: '#fff',
-                            borderRadius: '12px',
-                            overflow: 'hidden',
-                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
-                        }}
-                    >
-                        <thead>
-                            <tr style={{ backgroundColor: '#f1f3f5' }}>
-                                {view === 'requests' ? (
-                                    <>
-                                        <th style={thStyle}>Email</th>
-                                        <th style={thStyle}>Designation</th>
-                                        <th style={thStyle}>Department</th>
-                                        <th style={thStyle}>Status</th>
-                                        {userRole === 'admin' && <th style={thStyle}>Actions</th>}
-                                    </>
-                                ) : (
-                                    <>
-                                        <th style={thStyle}>Profile</th>
-                                        <th style={thStyle}>Username</th>
-                                        <th style={thStyle}>Email</th>
-                                        <th style={thStyle}>Designation</th>
-                                        <th style={thStyle}>Department</th>
-                                        {userRole === 'admin' && <th style={thStyle}>Actions</th>}
-                                    </>
-                                )}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {(view === 'requests' ? requests : members).map((item, index) => (
-                                <tr key={index} style={{ backgroundColor: index % 2 === 0 ? '#f9f9f9' : '#fff' }}>
-                                    {view === 'requests' ? (
-                                        <>
-                                            <td style={tdStyle}>{item.user_email}</td>
-                                            <td style={tdStyle}>{item.user_designation}</td>
-                                            <td style={tdStyle}>{item.user_department}</td>
-                                            <td style={tdStyle}>
-                                                <span
-                                                    style={{
-                                                        backgroundColor: '#dee2e6',
-                                                        borderRadius: '12px',
-                                                        padding: '4px 10px',
-                                                        fontSize: '12px',
-                                                        color: '#333',
-                                                    }}
-                                                >
-                                                    {item.status}
-                                                </span>
-                                            </td>
-                                            {userRole === 'admin' && (
-                                                <td style={{ ...tdStyle, display: 'flex', gap: '10px' }}>
-                                                    <Button variant="contained" size="small" color="success">
-                                                        Accept
-                                                    </Button>
-                                                    <Button variant="outlined" size="small" color="error">
-                                                        Reject
-                                                    </Button>
-                                                    {item.image && (
-                                                        <Button
-                                                            variant="text"
-                                                            size="small"
-                                                            onClick={() => window.open(item.image)}
-                                                        >
-                                                            View
-                                                        </Button>
-                                                    )}
-                                                </td>
-                                            )}
-                                        </>
-                                    ) : (
-                                        <>
-                                            <td style={tdStyle}>
-                                                <img
-                                                    src={item.image}
-                                                    alt="profile"
-                                                    style={{ width: '40px', height: '40px', borderRadius: '50%' }}
-                                                />
-                                            </td>
-                                            <td style={tdStyle}>{item.username}</td>
-                                            <td style={tdStyle}>{item.email}</td>
-                                            <td style={tdStyle}>{item.designation}</td>
-                                            <td style={tdStyle}>{item.department}</td>
-                                            {userRole === 'admin' && (
-                                                <td style={{ ...tdStyle, display: 'flex', gap: '10px' }}>
-                                                    <Button variant="contained" size="small">Promote</Button>
-                                                </td>
-                                            )}
-                                        </>
-                                    )}
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </Box>
+                <MembersTable members={members} userRole={userRole} />
             )}
         </Box>
     );
-}
-
-const thStyle = {
-    padding: '12px 16px',
-    fontWeight: 'bold',
-    color: '#444',
-    fontSize: '14px',
-    textAlign: 'left',
-    borderBottom: '1px solid #ccc',
 };
-
-const tdStyle = {
-    padding: '10px 16px',
-    fontSize: '14px',
-    color: '#333',
-};
-
 
 export default MemberRequestComponent;

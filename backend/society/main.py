@@ -6,7 +6,7 @@ from . import models
 from .routers import user,Authentication,imageUpload,societies,memeberRequests
 from .database import engine
 models.Base.metadata.create_all(bind=engine)
-app = FastAPI()
+app = FastAPI(debug=True)
 current_dir = os.path.dirname(__file__)
 uploads_path = os.path.join(current_dir, "uploads")
 

@@ -10,3 +10,4 @@ export const UploadImage = async (selectedFile) => {
     return response.data.fileUrl;
 };
 
+

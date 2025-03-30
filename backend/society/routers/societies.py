@@ -3,7 +3,7 @@ from .. import database,schemas
 from ..workers import societies
 from sqlalchemy.orm import Session
 from ..workers import societies
-from ..models import Societies
+from typing import List
 
 
 router = APIRouter()
@@ -25,9 +25,9 @@ def update_society_endpoint(id: int, request: schemas.UpdateSociety, db: Session
 def createSociety(request:schemas.Society,db:Session=Depends(database.get_db)):
  return societies.create_society(request,db)
 
-@router.get('/allMembers',status_code=status.HTTP_200_OK)
-def getAllMembers(db:Session=Depends(database.get_db)):
- return societies.allMembers(db)
+@router.get('/allMembers/{id}',status_code=status.HTTP_200_OK,response_model=List[schemas.UserOut])
+def getAllMembers(id:int,db:Session=Depends(database.get_db)):
+ return societies.allMembers(id, db)
 
 @router.delete('/societyDelete/{id}', status_code=status.HTTP_204_NO_CONTENT)
 def delete_society(id: int, db: Session = Depends(database.get_db)):

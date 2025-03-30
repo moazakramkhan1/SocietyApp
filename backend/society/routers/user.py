@@ -10,8 +10,8 @@ router = APIRouter(
     tags=["user"]
 )
 
-@router.post('/signUp',status_code=status.HTTP_201_CREATED)
-def CreateUser(request:schemas.User,db:Session=Depends(database.get_db)):
+@router.post('/signUp', status_code=status.HTTP_201_CREATED)
+def CreateUser(request: schemas.UserCreate, db: Session = Depends(database.get_db)):
    return user.create(request,db)
     
 @router.get('/admin/{id}',status_code=status.HTTP_200_OK)

@@ -2,19 +2,31 @@ from pydantic import BaseModel
 from typing import List, Optional
 from datetime import date,time
 
-class User(BaseModel):
+class UserCreate(BaseModel):
     username: str
     email: str
     phonenumber: str
     designation: str
-    department:str
+    department: str
     password: str
-    confirmpassword: str
     role: str
     image: Optional[str] = None
     societies: List["Society"] = []
     executive_societies: List["Society"] = []
     requests: List["Request"] = []
+
+    class Config:
+        from_attributes = True
+
+class UserOut(BaseModel):
+    id: int
+    username: str
+    email: str
+    phonenumber: Optional[str]
+    designation: Optional[str]
+    department: Optional[str]
+    role: str
+    image: Optional[str] = None
 
     class Config:
         from_attributes = True
@@ -28,8 +40,8 @@ class Society(BaseModel):
     description: str
     num_members: int
     image: Optional[str] = None
-    members: List[User] = []
-    executives: List[User] = []
+    members: List[UserCreate] = []
+    executives: List[UserCreate] = []
     events:List[Events] = []
     requests: List["Request"] = []
 
@@ -66,6 +78,10 @@ class Request(BaseModel):
     society_id: int
     status: str
     image: Optional[str] = None
+    user_email: Optional[str] = None
+    user_designation: Optional[str] = None
+    user_department: Optional[str] = None
+    society_name: Optional[str] = None
 
     class Config:
         from_attributes = True

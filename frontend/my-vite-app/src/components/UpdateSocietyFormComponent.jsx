@@ -5,6 +5,7 @@ import Loader from "./Loader";
 import "../styles/UpdateSocietyFormComponent.css";
 import ImageUploader from "./ImageUploader";
 import { UploadImage } from "../uploadImage";
+import { deleteImage } from "../deleteImage";
 
 const UpdateSocietyFormComponent = ({ societyData, setModalStatus }) => {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -40,29 +41,29 @@ const UpdateSocietyFormComponent = ({ societyData, setModalStatus }) => {
         setData((prevData) => ({ ...prevData, [name]: value }));
     };
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
         setMessage('');
         setLoading(true);
-
+        let imageUrl = '';
         try {
-            const imageUrl = await UploadImage(selectedFile);
+            imageUrl = await UploadImage(selectedFile);
             const updatedSocietyData = {
                 ...data,
                 image: imageUrl ? `${mainEndpoint}/${imageUrl}` : data.image,
             };
-
             await axios.put(`${UpdateSociety}${societyData.id}`, updatedSocietyData);
             setMessage("Society Updated Successfully");
             setModalStatus(false);
         } catch (err) {
-            console.error(err);
+            if (imageUrl) {
+                let delimgpath = imageUrl.split('/').pop();
+                await deleteImage(delimgpath);
+            }
             setError("Something went wrong!");
         } finally {
             setLoading(false);
-            handleRefresh();
         }
     };
 
