@@ -5,3 +5,4 @@ export const SocietiesScreenRoute = '/societies'
 export const SocietyDetailScreenRoute = '/societyDetail/:id';
 export const getSocietyDetailRoute = (id) => `/societyDetail/${id}`;
 export const MemberRequestScreenRoute = '/memberRequest';
+

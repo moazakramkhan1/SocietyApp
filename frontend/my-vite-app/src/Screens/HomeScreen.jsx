@@ -5,6 +5,9 @@ import Modal from "../components/Modal";
 import AddAnnouncementForm from "../components/AddAnnouncementForm";
 import AddEventForm from "../components/AddEventForm";
 import getRoleORImageOREmailORId from "../getRole";
+import "../styles/HomeScreen.css";
+import SideNavbar from "../components/SideNavbar";
+import Navbar from "../components/Navbar";
 
 const HomeScreen = () => {
   const userRole = getRoleORImageOREmailORId(1); // Get the user's role
@@ -24,59 +27,60 @@ const HomeScreen = () => {
 
   return (
     <div className="home-screen">
-      {/* Buttons for Admin */}
-      {userRole === "admin" && (
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
-          <button
-            style={{
-              marginRight: "10px",
-              padding: "10px 20px",
-              backgroundColor: "#30a7c9",
-              color: "white",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
-            onClick={() => openModal("announcement")}
-          >
-            Add Announcement
-          </button>
-          <button
-            style={{
-              padding: "10px 20px",
-              backgroundColor: "#30a7c9",
-              color: "white",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
-            onClick={() => openModal("event")}
-          >
-            Add Event
-          </button>
+      {/* Side Navbar */}
+      <SideNavbar />
+
+      {/* Main Content */}
+      <div className="main-content">
+        {/* Navbar */}
+        <Navbar />
+
+        {/* Header Section */}
+        <div className="header">
+          <h1>Announcements & Events</h1>
+          <div className="header-actions">
+            {userRole === "admin" && (
+              <>
+                <button
+                  className="action-button"
+                  onClick={() => openModal("announcement")}
+                >
+                  New Announcement
+                </button>
+                <button
+                  className="action-button"
+                  onClick={() => openModal("event")}
+                >
+                  New Event
+                </button>
+              </>
+            )}
+          </div>
         </div>
-      )}
 
-      {/* Announcements Section */}
-      <div className="upper-section">
-        <AnnouncementsComponent />
+        {/* Content Section */}
+        <div className="content">
+          <div className="card-container">
+            <h2>Announcements</h2>
+            <AnnouncementsComponent />
+          </div>
+          <div className="card-container">
+            <h2>Events</h2>
+            <EventsComponent />
+          </div>
+        </div>
+
+        {/* Modal for Adding Announcements or Events */}
+        {modalStatus && (
+          <Modal showModal={modalStatus} closeModal={closeModal}>
+            {modalType === "announcement" ? (
+              <AddAnnouncementForm closeModal={closeModal} userId={userId} />
+            ) : (
+              <AddEventForm closeModal={closeModal} userId={userId} />
+            )}
+          </Modal>
+        )}
       </div>
-
-      {/* Events Section */}
-      <div className="lower-section">
-        <EventsComponent />
-      </div>
-
-      {/* Modal for Adding Announcements or Events */}
-      {modalStatus && (
-        <Modal showModal={modalStatus} closeModal={closeModal}>
-          {modalType === "announcement" ? (
-            <AddAnnouncementForm closeModal={closeModal} userId={userId} />
-          ) : (
-            <AddEventForm closeModal={closeModal} userId={userId} />
-          )}
-        </Modal>
-      )}
     </div>
   );
 };
