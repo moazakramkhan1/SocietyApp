@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 from typing import List, Optional
-from datetime import date,time
-
+from datetime import date, time, datetime
 class UserCreate(BaseModel):
     username: str
     email: str
@@ -98,3 +97,34 @@ class TokenData(BaseModel):
 
     class Config:
         from_attributes = True
+
+class AnnouncementBase(BaseModel):
+    subject: str
+    body: str
+    society_id: int
+
+class AnnouncementCreate(AnnouncementBase):
+    pass
+
+class AnnouncementResponse(AnnouncementBase):
+    id: int
+    created_at: datetime
+
+    class Config:
+        orm_mode = True
+
+class EventBase(BaseModel):
+    name: str
+    description: str
+    logo: str
+    date: datetime
+    society_id: int
+
+class EventCreate(EventBase):
+    pass
+
+class EventResponse(EventBase):
+    id: int
+
+    class Config:
+        orm_mode = True

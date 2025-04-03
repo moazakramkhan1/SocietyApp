@@ -1,0 +1,27 @@
+.home-screen {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  .upper-section {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  .lower-section {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background-color: #ffffff;
+  }
+  
+  .announcement, .event {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fefefe;
+  }

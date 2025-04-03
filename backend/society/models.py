@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Date, Time
+from sqlalchemy import Column, Integer, String, ForeignKey, Date, Time, DateTime
 from sqlalchemy.orm import relationship, Session
+from datetime import datetime
 from .database import Base
 
 
@@ -39,7 +40,7 @@ class Society(Base):
     executive_memberships = relationship("ExecutiveMembership", back_populates="society")
     events = relationship("Event", back_populates="society")
     requests = relationship("Request", back_populates="society")
-
+    announcements = relationship("Announcement", back_populates="society")
 
 class Membership(Base):
     __tablename__ = "memberships"
@@ -66,15 +67,26 @@ class ExecutiveMembership(Base):
 
 
 class Event(Base):
-    __tablename__ = 'events'
+    __tablename__ = "events"
 
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, nullable=False)
-    date = Column(Date, nullable=False)
-    time = Column(Time, nullable=False)
-    society_id = Column(Integer, ForeignKey("societies.id"))
+    name = Column(String, nullable=False)
+    description = Column(String, nullable=False)
+    logo = Column(String, nullable=True)
+    date = Column(DateTime, nullable=False)
+    society_id = Column(Integer, ForeignKey("societies.id"), nullable=False)
 
     society = relationship("Society", back_populates="events")
+
+class Announcement(Base):
+    __tablename__ = "announcements"
+    id = Column(Integer, primary_key=True, index=True)
+    subject = Column(String, nullable=False)
+    body = Column(String, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    society_id = Column(Integer, ForeignKey("societies.id"), nullable=False)
+
+    society = relationship("Society", back_populates="announcements")
 
 
 class Request(Base):
