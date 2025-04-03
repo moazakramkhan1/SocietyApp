@@ -32,3 +32,10 @@ def getAllMembers(id:int,db:Session=Depends(database.get_db)):
 @router.delete('/societyDelete/{id}', status_code=status.HTTP_204_NO_CONTENT)
 def delete_society(id: int, db: Session = Depends(database.get_db)):
     return societies.delete_society(id, db)
+
+@router.get("/societyByAdmin/{admin_id}", status_code=status.HTTP_200_OK)
+def get_society_by_admin(admin_id: int, db: Session = Depends(database.get_db)):
+    society = db.query(models.Society).filter(models.Society.admin_id == admin_id).first()
+    if not society:
+        raise HTTPException(status_code=404, detail="Society not found for this admin")
+    return society
