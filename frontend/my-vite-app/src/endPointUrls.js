@@ -15,6 +15,9 @@ export const AllMembersURL = 'http://127.0.0.1:8000/allMembers/'
 export const DeleteSocietyURL = 'http://127.0.0.1:8000/societyDelete/'
 export const AcceptMemberRequest = 'http://127.0.0.1:8000/acceptRequest/'
 export const DeleteImageURL = 'http://127.0.0.1:8000/deleteImage/'
+export const RejectMemberRequest = 'http://127.0.0.1:8000/rejectRequest/'
+export const IsMemberURL = 'http://127.0.0.1:8000/isMember/'
+export const GetUserNotifications = 'http://127.0.0.1:8000/notifications/'
 
 
 

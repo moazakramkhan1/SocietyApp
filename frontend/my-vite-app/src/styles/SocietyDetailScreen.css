@@ -52,6 +52,18 @@
     background-color: #c82333;
 }
 
+.non-member-message {
+    font-size: 18px;
+    color: #9d8f8f;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+    background-color: #f9d6d5;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 @media (max-width: 768px) {
     .content {
         margin-left: 0;

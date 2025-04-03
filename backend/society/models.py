@@ -22,6 +22,7 @@ class User(Base):
     societies = relationship("Society", secondary="memberships", back_populates="members", overlaps="memberships")
     executive_memberships = relationship("ExecutiveMembership", back_populates="user")
     requests = relationship("Request", back_populates="user")
+    notifications = relationship("Notification", back_populates="user")
 
 
 class Society(Base):
@@ -121,3 +122,14 @@ class Request(Base):
             society = session.query(Society).filter_by(id=society_id).first()
             if society:
                 self.society_name = society.name or ""
+
+
+class Notification(Base):
+    __tablename__ = "notifications"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    message = Column(String)
+    is_read = Column(Integer, default=0) 
+
+    user = relationship("User", back_populates="notifications")

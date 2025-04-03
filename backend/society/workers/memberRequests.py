@@ -41,15 +41,35 @@ def acceptR(request_id:int,db:Session):
         role = "member"
     )
     db.add(membership)
+
+    notification = models.Notification(
+        user_id=request.user_id,
+        message=f"Congratulations, your request for joining {request.society_name} was approved!"
+    )
+    db.add(notification)
+
     db.query(models.Request).filter(models.Request.id==request_id).delete()
     db.commit()
     db.refresh(membership)
     return request
 
-# def rejectR(request_id:int,db:Session):
-#     request = db.query(models.Request).filter(models.Request.id==request_id).first()
-#     if not request:
-#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"request with id {request_id} not found")
-#     db.query(models.Request).filter(models.Request.id==request_id).delete()
-#     db.commit()
-#     return {"message":f"Unfortunately your request was rejected"}
+def rejectR(request_id:int,db:Session):
+    request = db.query(models.Request).filter(models.Request.id==request_id).first()
+    if not request:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"request with id {request_id} not found")
+    
+    notification = models.Notification(
+        user_id=request.user_id,
+        message=f"Unfortunately, your request for joining {request.society_name} was rejected. Please contact administration for details."
+    )
+    db.add(notification)
+
+    db.query(models.Request).filter(models.Request.id==request_id).delete()
+    db.commit()
+    return {"message":"Request rejected successfully"}
+
+def isMember(user_id:int,society_id:int,db:Session):
+    membership = db.query(models.Membership).filter(models.Membership.user_id==user_id,models.Membership.society_id==society_id).first()
+    if not membership:
+        return False
+    return True
