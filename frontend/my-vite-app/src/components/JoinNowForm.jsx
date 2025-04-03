@@ -58,6 +58,7 @@ function JoinNowForm({ isloading, adminName, adminPhone, setModalStatus }) {
       <form onSubmit={handleSubmit} className="join-form">
         <div className="form-group">
           <label>Acount Name:</label>
+          {console.log(adminName)}
           <input type="text" value={adminName} readOnly />
         </div>
 

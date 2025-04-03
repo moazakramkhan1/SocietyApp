@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button } from '@mui/material';
-import { AcceptMemberRequest } from '../endPointUrls';
+import { AcceptMemberRequest, RejectMemberRequest } from '../endPointUrls';
 import Loader from '../components/Loader';
 import axios from 'axios';
 import { deleteImage } from "../deleteImage";
@@ -23,23 +23,23 @@ const RequestsTable = ({ requests, userRole, refreshData }) => {
         }
     };
 
-    // const handleRejection = async (id, imageUrl) => {
-    //     setLoading(true);
-    //     try {
-    //         // await axios.delete(`${RejectMemberRequest}${id}`);
-    //         if (imageUrl) {
-    //             let delimgpath = imageUrl.split('/').pop();
-    //             await deleteImage(delimgpath);
-    //         }
-    //         alert('Request rejected successfully');
-    //         refreshData();
-    //     } catch (e) {
-    //         console.error('Error rejecting request:', e);
-    //         alert('Failed to reject request');
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
+    const handleRejection = async (id, imageUrl) => {
+        setLoading(true);
+        try {
+            await axios.delete(`${RejectMemberRequest}${id}`);
+            if (imageUrl) {
+                let delimgpath = imageUrl.split('/').pop();
+                await deleteImage(delimgpath);
+            }
+            alert('Request rejected successfully');
+            refreshData();
+        } catch (e) {
+            console.error('Error rejecting request:', e);
+            alert('Failed to reject request');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     if (isLoading) {
         return <Loader />;
@@ -101,7 +101,8 @@ const RequestsTable = ({ requests, userRole, refreshData }) => {
                                     <Button
                                         variant="outlined"
                                         size="small"
-                                    // onClick={() => handleRejection(item.id, item.image)}
+                                        onClick={() => handleRejection(item.id, item.image)}
+                                        color='white'
                                     >
                                         Reject
                                     </Button>

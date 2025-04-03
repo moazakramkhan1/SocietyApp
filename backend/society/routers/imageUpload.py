@@ -3,8 +3,9 @@ from fastapi import APIRouter, UploadFile, File
 from ..workers import imageUpload
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parents[1]
+BASE_DIR = Path(__file__).resolve().parents[2]
 UPLOAD_DIR = BASE_DIR / "uploads"
+print(UPLOAD_DIR)
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 router = APIRouter(

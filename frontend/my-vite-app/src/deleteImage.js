@@ -1,4 +1,5 @@
 import { DeleteImageURL } from "./endPointUrls";
+import axios from "axios";
 export const deleteImage = async (fileUrl) => {
     const filename = fileUrl.split("/").pop();
     try {

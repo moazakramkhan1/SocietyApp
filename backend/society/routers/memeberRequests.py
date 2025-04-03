@@ -24,6 +24,11 @@ def getSocietyRequests(admin_id: int, db: Session = Depends(database.get_db)):
 @router.put("/acceptRequest/{request_id}", status_code=status.HTTP_200_OK)
 def acceptRequest(request_id: int, db: Session = Depends(database.get_db)):
     return memberRequests.acceptR(request_id, db)
-# @router.delete("/rejectRequest/{request_id}", status_code=status.HTTP_200_OK)
-# def rejectRequest(request_id: int, db: Session = Depends(database.get_db)):
-#     return memberRequests.rejectR(request_id, db)
+
+@router.delete("/rejectRequest/{request_id}", status_code=status.HTTP_200_OK)
+def rejectRequest(request_id: int, db: Session = Depends(database.get_db)):
+    return memberRequests.rejectR(request_id, db)
+
+@router.get("/isMember/{user_id}/{society_id}", status_code=status.HTTP_200_OK)
+def isMember(user_id: int, society_id: int, db: Session = Depends(database.get_db)):
+    return memberRequests.isMember(user_id, society_id, db)
