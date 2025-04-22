@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { mainEndpoint } from "../endPointUrls";
+import { AddEventsURL, mainEndpoint } from "../endPointUrls";
 
 const AddEventForm = ({ closeModal, userId }) => {
   const [data, setData] = useState({
@@ -8,20 +8,19 @@ const AddEventForm = ({ closeModal, userId }) => {
     description: "",
     date: "",
     logo: "",
-    society_id: null, // Will be fetched based on admin's details
+    society_id: null,
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    // Fetch the society ID and logo based on the admin's user ID
     const fetchSocietyDetails = async () => {
       try {
         const response = await axios.get(`${mainEndpoint}/societyByAdmin/${userId}`);
         setData((prevData) => ({
           ...prevData,
           society_id: response.data.id,
-          logo: response.data.logo, // Assuming the society has a logo field
+          logo: response.data.image,
         }));
       } catch (err) {
         console.error("Error fetching society details:", err);
@@ -41,7 +40,7 @@ const AddEventForm = ({ closeModal, userId }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post(`${mainEndpoint}/events`, data);
+      await axios.post(AddEventsURL, data);
       alert("Event added successfully!");
       closeModal();
     } catch (err) {

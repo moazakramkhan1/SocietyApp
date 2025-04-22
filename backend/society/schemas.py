@@ -1,6 +1,7 @@
+from __future__ import annotations
 from pydantic import BaseModel
 from typing import List, Optional
-from datetime import date, time, datetime
+from datetime import datetime
 class UserCreate(BaseModel):
     username: str
     email: str
@@ -16,6 +17,7 @@ class UserCreate(BaseModel):
 
     class Config:
         from_attributes = True
+        exclude = {"societies", "executive_societies", "requests"}
 
 class UserOut(BaseModel):
     id: int
@@ -29,10 +31,7 @@ class UserOut(BaseModel):
 
     class Config:
         from_attributes = True
-class Events(BaseModel):
-    title:str
-    date:date
-    time:time
+
 class Society(BaseModel):
     admin_id: int
     name: str
@@ -41,11 +40,12 @@ class Society(BaseModel):
     image: Optional[str] = None
     members: List[UserCreate] = []
     executives: List[UserCreate] = []
-    events:List[Events] = []
+    events: List["EventBase"] = []
     requests: List["Request"] = []
 
     class Config:
         from_attributes = True
+        exclude = {"members", "executives", "events", "requests"}
 
 class UpdateSociety(BaseModel):
     name: Optional[str] = None
@@ -54,7 +54,6 @@ class UpdateSociety(BaseModel):
 
     class Config:
         from_attributes = True
-
 
 class Membership(BaseModel):
     user_id: int
@@ -111,7 +110,7 @@ class AnnouncementResponse(AnnouncementBase):
     created_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class EventBase(BaseModel):
     name: str
@@ -127,4 +126,4 @@ class EventResponse(EventBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True

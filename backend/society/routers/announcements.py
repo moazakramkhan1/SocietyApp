@@ -5,10 +5,11 @@ from ..workers import announcements
 
 router = APIRouter()
 
-@router.post("/announcements", status_code=status.HTTP_201_CREATED)
+@router.post("/create_announcements", status_code=status.HTTP_201_CREATED)
 def create_announcement(request: schemas.AnnouncementCreate, db: Session = Depends(database.get_db)):
     return announcements.create_announcement(request, db)
 
-@router.get("/announcements", status_code=status.HTTP_200_OK)
+@router.get("/getAllannouncements", status_code=status.HTTP_200_OK)
 def get_announcements(db: Session = Depends(database.get_db)):
     return announcements.get_announcements(db)
+

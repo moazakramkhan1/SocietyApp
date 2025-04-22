@@ -1,8 +1,7 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Date, Time, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship, Session
 from datetime import datetime
 from .database import Base
-
 
 class User(Base):
     __tablename__ = "users"
@@ -17,12 +16,12 @@ class User(Base):
     role = Column(String)
     image = Column(String, nullable=True)
     
-    memberships = relationship("Membership", back_populates="user", overlaps="societies")
-    administered_societies = relationship("Society", back_populates="admin_user")
-    societies = relationship("Society", secondary="memberships", back_populates="members", overlaps="memberships")
-    executive_memberships = relationship("ExecutiveMembership", back_populates="user")
-    requests = relationship("Request", back_populates="user")
-    notifications = relationship("Notification", back_populates="user")
+    memberships = relationship("Membership", back_populates="user", overlaps="user,societies")
+    administered_societies = relationship("Society", back_populates="admin_user", overlaps="admin_user")
+    societies = relationship("Society", secondary="memberships", back_populates="members", overlaps="memberships,user")
+    executive_memberships = relationship("ExecutiveMembership", back_populates="user", overlaps="user")
+    requests = relationship("Request", back_populates="user", overlaps="user")
+    notifications = relationship("Notification", back_populates="user", overlaps="user")
 
 
 class Society(Base):
@@ -35,13 +34,14 @@ class Society(Base):
     num_members = Column(Integer, default=1)
     image = Column(String, nullable=True)
 
-    admin_user = relationship("User", back_populates="administered_societies")
-    memberships = relationship("Membership", back_populates="society", overlaps="members")
-    members = relationship("User", secondary="memberships", back_populates="societies", overlaps="memberships")
-    executive_memberships = relationship("ExecutiveMembership", back_populates="society")
-    events = relationship("Event", back_populates="society")
-    requests = relationship("Request", back_populates="society")
-    announcements = relationship("Announcement", back_populates="society")
+    admin_user = relationship("User", back_populates="administered_societies", overlaps="administered_societies")
+    memberships = relationship("Membership", back_populates="society", overlaps="society,members")
+    members = relationship("User", secondary="memberships", back_populates="societies", overlaps="memberships,society")
+    executive_memberships = relationship("ExecutiveMembership", back_populates="society", overlaps="society")
+    events = relationship("Event", back_populates="society", overlaps="society")
+    requests = relationship("Request", back_populates="society", overlaps="society")
+    announcements = relationship("Announcement", back_populates="society", overlaps="society")
+
 
 class Membership(Base):
     __tablename__ = "memberships"
@@ -51,8 +51,8 @@ class Membership(Base):
     society_id = Column(Integer, ForeignKey("societies.id"))
     role = Column(String)
 
-    user = relationship("User", back_populates="memberships", overlaps="societies")
-    society = relationship("Society", back_populates="memberships", overlaps="members")
+    user = relationship("User", back_populates="memberships", overlaps="societies,user")
+    society = relationship("Society", back_populates="memberships", overlaps="members,society")
 
 
 class ExecutiveMembership(Base):
@@ -63,8 +63,8 @@ class ExecutiveMembership(Base):
     society_id = Column(Integer, ForeignKey("societies.id"))
     designation = Column(String)
     
-    user = relationship("User", back_populates="executive_memberships")
-    society = relationship("Society", back_populates="executive_memberships")
+    user = relationship("User", back_populates="executive_memberships", overlaps="user")
+    society = relationship("Society", back_populates="executive_memberships", overlaps="society")
 
 
 class Event(Base):
@@ -77,7 +77,8 @@ class Event(Base):
     date = Column(DateTime, nullable=False)
     society_id = Column(Integer, ForeignKey("societies.id"), nullable=False)
 
-    society = relationship("Society", back_populates="events")
+    society = relationship("Society", back_populates="events", overlaps="events")
+
 
 class Announcement(Base):
     __tablename__ = "announcements"
@@ -87,7 +88,7 @@ class Announcement(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     society_id = Column(Integer, ForeignKey("societies.id"), nullable=False)
 
-    society = relationship("Society", back_populates="announcements")
+    society = relationship("Society", back_populates="announcements", overlaps="announcements")
 
 
 class Request(Base):
@@ -103,8 +104,8 @@ class Request(Base):
     image = Column(String)
     society_name = Column(String)
 
-    user = relationship("User", back_populates="requests")
-    society = relationship("Society", back_populates="requests")
+    user = relationship("User", back_populates="requests", overlaps="requests")
+    society = relationship("Society", back_populates="requests", overlaps="requests")
 
     def __init__(self, user_id, society_id, session: Session, **kwargs):
         super().__init__(**kwargs)
@@ -132,4 +133,4 @@ class Notification(Base):
     message = Column(String)
     is_read = Column(Integer, default=0) 
 
-    user = relationship("User", back_populates="notifications")
+    user = relationship("User", back_populates="notifications", overlaps="notifications")

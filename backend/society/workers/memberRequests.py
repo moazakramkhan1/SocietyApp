@@ -33,6 +33,7 @@ def getsocietyR(admin_id: int, db: Session):
 
 def acceptR(request_id:int,db:Session):
     request = db.query(models.Request).filter(models.Request.id==request_id).first()
+    society = db.query(models.Society).filter(models.Society.id == request.society_id).first()
     if not request:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"request with id {request_id} not found")
     membership = models.Membership(
@@ -47,10 +48,11 @@ def acceptR(request_id:int,db:Session):
         message=f"Congratulations, your request for joining {request.society_name} was approved!"
     )
     db.add(notification)
-
+    society.num_members  = society.num_members  + 1
     db.query(models.Request).filter(models.Request.id==request_id).delete()
     db.commit()
     db.refresh(membership)
+    db.refresh(society)
     return request
 
 def rejectR(request_id:int,db:Session):
@@ -73,3 +75,12 @@ def isMember(user_id:int,society_id:int,db:Session):
     if not membership:
         return False
     return True
+
+def promote(member_id:int,db:Session):
+    member = db.query(models.User).filter(models.User.id==member_id).first()
+    if not member:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"member with {member_id} not found")
+    member.role = "moderator"
+    db.commit() 
+    db.refresh(member) 
+    return {"message":"promoted successfully"}

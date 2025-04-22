@@ -18,6 +18,14 @@ export const DeleteImageURL = 'http://127.0.0.1:8000/deleteImage/'
 export const RejectMemberRequest = 'http://127.0.0.1:8000/rejectRequest/'
 export const IsMemberURL = 'http://127.0.0.1:8000/isMember/'
 export const GetUserNotifications = 'http://127.0.0.1:8000/notifications/'
+export const AddAnnouncementsURL = 'http://127.0.0.1:8000/create_announcements'
+export const AddEventsURL = 'http://127.0.0.1:8000/create_events'
+export const getALLannouncements = 'http://127.0.0.1:8000/getAllannouncements'
+export const getALLevents = 'http://127.0.0.1:8000/getAllEvents'
+export const getCommitteeMembersURL = 'http://127.0.0.1:8000/committeeMembers'
+export const getEventsOfSociety = 'http://127.0.0.1:8000/getEventsOfSociety/'
+export const PromoteMemberURL = 'http://127.0.0.1:8000/promoteMember/'
+
 
 
 

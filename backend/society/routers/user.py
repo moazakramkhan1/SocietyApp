@@ -23,3 +23,7 @@ def getAdminDetails(id:int,db:Session=Depends(database.get_db)):
 def get_notifications(user_id: int, db: Session = Depends(database.get_db)):
     notifications = db.query(models.Notification).filter(models.Notification.user_id == user_id).all()
     return notifications
+
+@router.get('/committeeMembers',status_code=status.HTTP_200_OK)
+def getCommitteeMembers(db:Session = Depends(database.get_db)):
+   return user.getCommitteeMembers(db)

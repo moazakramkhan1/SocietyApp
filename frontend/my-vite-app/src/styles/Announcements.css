@@ -1,0 +1,57 @@
+/* Announcement.css */
+
+.announcements-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 16px;
+}
+
+/* tablet */
+@media (min-width: 768px) {
+    .announcements-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* large desktop */
+@media (min-width: 1200px) {
+    .announcements-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.announcement-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+
+.announcement-card:hover {
+    transform: translateY(-4px);
+}
+
+.announcement-card .info {
+    padding: 12px;
+}
+
+.announcement-card .info h3 {
+    margin: 0 0 8px;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #222;
+}
+
+.announcement-card .info p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #555;
+}
+
+.announcement-card .info .created-at {
+    margin-top: 8px;
+    font-size: 0.75rem;
+    color: #888;
+}

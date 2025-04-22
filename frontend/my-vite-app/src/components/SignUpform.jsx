@@ -81,7 +81,7 @@ const Signup = ({ setFormType }) => {
                 <input name="confirmpassword" placeholder="Confirm Password" value={confirmPassword} type="password" onChange={handleChangeConfirmPassword} required />
                 <ImageUploader setSelectedFile={setSelectedFile} />
                 <label>Role:</label>
-                <select name="role" value={data.role} onChange={handleChange}>
+                <select name="role" value={data.role} onChange={handleChange} defaultValue={'student'}>
                     <option value="student">Student</option>
                     <option value="admin">Admin</option>
                 </select>

@@ -1,9 +1,46 @@
 import "../styles/SocietyDetailsComponent.css";
 import MyError from "../components/ErrorComponent";
 import Loader from "./Loader";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { getCommitteeMembersURL, getEventsOfSociety } from "../endPointUrls";
 
 
 const SocietyDetails = ({ SocietyData, isSocietyLoading }) => {
+  const [committeeMembers, setCommitteeMembers] = useState([]);
+  const [events, setEvents] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCommitteeMembers = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(getCommitteeMembersURL);
+        const committeeMembers = response.data;
+        setCommitteeMembers(committeeMembers);
+      } catch (e) {
+        console.error("Error fetching committee members:", e);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchCommitteeMembers();
+  }, []);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(`${getEventsOfSociety}${SocietyData.id}`);
+        setEvents(response.data);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchEvents();
+  }, []);
 
 
   if (isSocietyLoading) {
@@ -19,29 +56,31 @@ const SocietyDetails = ({ SocietyData, isSocietyLoading }) => {
       <p className="description">{SocietyData.description}</p>
 
       <h2 className="section-title">Committee Members</h2>
-      {Array.isArray(SocietyData.executive_memberships) && SocietyData.executive_memberships.length > 0 ? (
+      {isLoading ? (
+        <Loader />
+      ) : committeeMembers.length > 0 ? (
         <ul className="committee-list">
-          {SocietyData.executive_memberships.map((member, index) => (
-            <li key={`${member}-${index}`}>{member}</li>
+          {committeeMembers.map((member, index) => (
+            <li key={index}>{member.username} - {member.designation}</li>
           ))}
         </ul>
       ) : (
         <p>No committee members listed.</p>
       )}
 
-      {Array.isArray(SocietyData.events) && SocietyData.events.length > 0 ? (
-        <>
-          <h2 className="section-title">Upcoming Events</h2>
-          <div className="events-container">
-            {SocietyData.events.map((event) => (
-              <div className="event-card" key={event.id || `${event.title}-${event.date}`}>
-                <h3>{event.title}</h3>
-                <p>{event.date}</p>
-                <p>{event.time}</p>
-              </div>
-            ))}
-          </div>
-        </>
+      <h2 className="section-title">Upcoming Events</h2>
+      {isLoading ? (
+        <Loader />
+      ) : events.length > 0 ? (
+        <div className="events-container">
+          {events.map((event) => (
+            <div className="event-card" key={event.id || `${event.title}-${event.date}`}>
+              <h3>{event.name}</h3>
+              <p>{event.description}</p>
+              <p>{new Date(event.date).toLocaleDateString()}</p>
+            </div>
+          ))}
+        </div>
       ) : (
         <h2 className="section-title">No upcoming events.</h2>
       )}

@@ -3,7 +3,11 @@ from ..models import Announcement
 from ..schemas import AnnouncementCreate
 
 def create_announcement(request: AnnouncementCreate, db: Session):
-    new_announcement = Announcement(**request.dict())
+    new_announcement = Announcement(
+        subject = request.subject,
+        body = request.body,
+        society_id = request.society_id
+    )
     db.add(new_announcement)
     db.commit()
     db.refresh(new_announcement)

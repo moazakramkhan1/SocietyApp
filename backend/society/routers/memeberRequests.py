@@ -32,3 +32,7 @@ def rejectRequest(request_id: int, db: Session = Depends(database.get_db)):
 @router.get("/isMember/{user_id}/{society_id}", status_code=status.HTTP_200_OK)
 def isMember(user_id: int, society_id: int, db: Session = Depends(database.get_db)):
     return memberRequests.isMember(user_id, society_id, db)
+
+@router.put("/promoteMember/{member_id}", status_code=status.HTTP_202_ACCEPTED)
+def promoteMember(member_id,db:Session = Depends(database.get_db)):
+    return memberRequests.promote(member_id,db)

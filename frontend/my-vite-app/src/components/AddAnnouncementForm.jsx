@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { mainEndpoint } from "../endPointUrls";
+import { AddAnnouncementsURL, mainEndpoint } from "../endPointUrls";
 
 const AddAnnouncementForm = ({ closeModal, userId }) => {
   const [data, setData] = useState({
     subject: "",
     body: "",
-    society_id: null, // Will be fetched based on admin's details
+    society_id: null,
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    // Fetch the society ID based on the admin's user ID
+
     const fetchSocietyId = async () => {
       try {
         const response = await axios.get(`${mainEndpoint}/societyByAdmin/${userId}`);
@@ -35,7 +35,7 @@ const AddAnnouncementForm = ({ closeModal, userId }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post(`${mainEndpoint}/announcements`, data);
+      await axios.post(AddAnnouncementsURL, data);
       alert("Announcement added successfully!");
       closeModal();
     } catch (err) {

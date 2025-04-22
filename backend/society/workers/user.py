@@ -22,3 +22,7 @@ def getadmin(id:int,db:Session):
     if not admin:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"user with this {id} not found")
     return admin
+
+def getCommitteeMembers(db:Session):
+   committeeMembers = db.query(models.User).filter((models.User.role == 'admin') | (models.User.role == 'moderator')).all()
+   return committeeMembers

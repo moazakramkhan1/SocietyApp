@@ -1,7 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@mui/material';
+import { PromoteMemberURL } from '../endPointUrls';
+import axios from 'axios';
 
 const MembersTable = ({ members, userRole }) => {
+    const [disabledButtons, setDisabledButtons] = useState({});
+
+    if (!members || members.length === 0) {
+        return <p>No Members at the moment</p>
+    }
+
+    const handleSubmit = async (id) => {
+        const response = await axios.put(`${PromoteMemberURL}${id}`);
+        if (response) {
+            alert('Member promoted successfully');
+            setDisabledButtons((prev) => ({ ...prev, [id]: true }));
+        } else {
+            alert('Failed to promote member');
+        }
+    };
+
     return (
         <table
             style={{
@@ -40,7 +58,16 @@ const MembersTable = ({ members, userRole }) => {
                         <td style={tdStyle}>{item.department}</td>
                         {userRole === 'admin' && (
                             <td style={{ ...tdStyle, display: 'flex', gap: '10px' }}>
-                                <Button variant="contained" size="small">
+                                <Button
+                                    variant="contained"
+                                    size="small"
+                                    style={{
+                                        backgroundColor: disabledButtons[item.id] ? '#b0bec5' : '#30A7C9',
+                                        color: '#fff',
+                                    }}
+                                    onClick={() => handleSubmit(item.id)}
+                                    disabled={disabledButtons[item.id]}
+                                >
                                     Promote
                                 </Button>
                             </td>
